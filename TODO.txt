@@ -1,0 +1,2 @@
+update to discord.js v13
+no u response only when the user calls someone else an idiot instead of themself

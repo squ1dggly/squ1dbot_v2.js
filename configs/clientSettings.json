@@ -1,0 +1,76 @@
+{
+    "CREATOR_ID": "227851838572068875",
+
+    "INVITE_LINK": "https://discord.com/api/oauth2/authorize?client_id=895099253360300072&permissions=8&scope=applications.commands%20bot",
+    "MONGO_URI": "mongodb://squ1d:9ULRjAbpEEVWKKcn@squ1dbot-shard-00-00.kk3hm.mongodb.net:27017,squ1dbot-shard-00-01.kk3hm.mongodb.net:27017,squ1dbot-shard-00-02.kk3hm.mongodb.net:27017/squ1dbot?ssl=true&replicaSet=atlas-felmbb-shard-0&authSource=admin&retryWrites=true&w=majority",
+
+    "CLIENT_ACTIVITY": {
+        "STATUS": "dnd",
+        "TYPE": "WATCHING",
+        "INFO": "the Big Mac 2.0 documentary"
+    },
+
+    "embedColor": {
+        "MAIN": "65B085",
+        "APPROVED": "85C09F",
+        "ERROR": "E75F5F"
+    },
+    
+    "MSGTIMEOUT_SELECTMENU": 30000,
+    
+    "MSGTIMEOUT_TASKCOMPLETED": 4000,
+    "MSGTIMEOUT_ERROR": 4000,
+    
+    "MSGTIMEOUT_CMDCOOLDOWN": 1000,
+    
+    "MSGTIMEOUT_SPAM": 3000,
+    "MSGTIMEOUT_SPAMWARNING": 6000,
+
+    "timeouts": {
+        "interaction": { "SELECTMENU": 30000 },
+        "cooldown": { "COMMAND": 1000, "SPAM": 3000 },
+        "warningMessage": { "ALERT": 4000 }
+    },
+    
+    "ERRORMSG_NOSPAMMING": [
+        "Oi, $$UM$$! Could you keep it down? I'm trying to sleep on the job.",
+        "$$UM$$ do you mind shutting the hell up?",
+        "Commit speakn't, $$UM$$."
+    ],
+
+    "ERRORMSG_NODUPLICATEMSGS": [
+        "Please refrain from sending duplicate messages, $$UM$$.",
+        "We got it the first time, $$UM$$. Don't send the same message over and over again.",
+        "Ayo, $$UM$$. I'm gonna have to 360 no scope you out of this server if you don't shut up."
+    ],
+
+    "ERRORMSG_NOADMINPERMS": [
+        "Only server admins have the power to use this command, peasent!",
+        "Tsk, tsk... You don't have the power to use this command.",
+        "Silly wabbit! Admin is for people who can actually be trusted!"
+    ],
+
+    "ERRORMSG_COMMANDFAILEDMISERABLY": "Uh-oh! Hey, idiot <#227851838572068875>. How did you even fuck this up!?",
+
+    "errorMsg": {
+        "NOSPAMMING": [
+            "Oi, $$UM$$! Could you keep it down? I'm trying to sleep on the job.",
+            "$$UM$$ do you mind shutting the hell up?",
+            "Commit speakn't, $$UM$$."
+        ],
+
+        "NODUPLICATEMESSAGES": [
+            "Please refrain from sending duplicate messages, $$UM$$.",
+            "We got it the first time, $$UM$$. Don't send the same message over and over again.",
+            "Ayo, $$UM$$. I'm gonna have to 360 no scope you out of this server if you don't shut up."
+        ],
+
+        "NOADMINPERMS": [
+            "Only server admins have the power to use this command, peasent!",
+            "Tsk, tsk... You don't have the power to use this command.",
+            "Silly wabbit! Admin is for people who can actually be trusted!"
+        ],
+
+        "COMMANDFAILEDMISERABLY": "Uh-oh! Hey, idiot <#227851838572068875>! How did you manage to fuck up this time!?"
+    }
+}
