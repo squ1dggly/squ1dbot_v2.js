@@ -73,7 +73,7 @@ function FormatMemberWarns(warns, limit=0) {
         if (warn.id) formatted += `${warn.formatted}\n\n`; else formatted += warn;
     });
 
-    return { length: warns.length, list: warns, foramtted: formatted }
+    return { length: warns.length, list: warns, formatted: formatted }
 }
 
 // Components:
@@ -129,26 +129,26 @@ module.exports = {
     execute: async (client, message, commandData) => {
         let user = message.mentions.members.first() || commandData.args[0] || message.member;
         let guildMember;
-        let foundBy = "";
 
-        if (user.guild) { guildMember = user; foundBy = "self"; }
+        if (user.id === message.author.id) { guildMember = user; }
 
         if (!guildMember) {
-            if (user.id) { guildMember = await message.guild.members.fetch(user.id); foundBy = "mention"; }
+            if (user.id) guildMember = await message.guild.members.fetch(user.id);
             else if (user != "")
-                try { guildMember = await message.guild.members.fetch(user); foundBy = "id"; }
+                try { guildMember = await message.guild.members.fetch(user); }
                 catch { return message.channel.send("I wasn't able to find the member you mentioned. That sly dawg!"); }
         }
 
         let member_roles = FormatMemberRoles(guildMember.roles.cache.map(r => r), 9);
         let member_warns = FormatMemberWarns(await mongo.retrieveUserWarns(message.guild.id, guildMember.id));
+        
         let member_permisions = FormatMemberPermissions(guildMember.permissions.toArray());
 
         // Preparing embeds
-        let memberInfo_embed = memberInfo_ES(message.guild, guildMember, member_permisions, member_roles, member_warns, foundBy);
-        let memberRoles_embed = memberRoles_ES(guildMember, member_roles, foundBy);
-        let memberWarns_embed = memberWarns_ES(guildMember, member_warns, foundBy);
-        let memberPermissions_embed =  memberPermissions_ES(guildMember, member_permisions, foundBy);
+        let memberInfo_embed = memberInfo_ES(message.guild, guildMember, member_permisions, member_roles, member_warns);
+        let memberRoles_embed = memberRoles_ES(guildMember, member_roles);
+        let memberWarns_embed = memberWarns_ES(guildMember, member_warns);
+        let memberPermissions_embed =  memberPermissions_ES(guildMember, member_permisions);
 
         let miMessage = await message.channel.send({ embeds: [memberInfo_embed], components: [CreateActionRow("1000")] });
 
@@ -161,6 +161,7 @@ module.exports = {
         collector.on("collect", i => {
             if (i.user.id != message.author.id) return;
             collector.resetTimer();
+            i.deferUpdate();
             
             // QUESTION: should the embeds be created on the fly or stay static?
             // could save some command processing time if the user doesn't even use the select menu options
@@ -170,28 +171,28 @@ module.exports = {
                 case "member_info":
                     miMessage.edit({
                         embeds: [memberInfo_embed],
-                        components: [actionRow("1000")]
+                        components: [CreateActionRow("1000")]
                     });
                     break;
                     
                 case "member_roles":
                     miMessage.edit({
                         embeds: [memberRoles_embed],
-                        components: [actionRow("0100")]
+                        components: [CreateActionRow("0100")]
                     });
                     break;
 
                 case "member_warns":
                     miMessage.edit({
                         embeds: [memberWarns_embed],
-                        components: [actionRow("0010")]
+                        components: [CreateActionRow("0010")]
                     });
                     break;
     
                 case "member_permissions":
                     miMessage.edit({
                         embeds: [memberPermissions_embed],
-                        components: [actionRow("0001")]
+                        components: [CreateActionRow("0001")]
                     });
                     break;
             }
