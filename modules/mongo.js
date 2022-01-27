@@ -3,7 +3,7 @@
 const { time, userMention, memberNicknameMention } = require('@discordjs/builders');
 
 const mongoose = require('mongoose');
-const URI = require('../configs/clientSettings.json').MONGO_URI;
+const URI = process.env.MONGO_URI;
 
 // Models
 const guildModel = require('../models/guildModel');

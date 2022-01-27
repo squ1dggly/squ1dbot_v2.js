@@ -2,7 +2,6 @@
     "CREATOR_ID": "227851838572068875",
 
     "INVITE_LINK": "https://discord.com/api/oauth2/authorize?client_id=895099253360300072&permissions=8&scope=applications.commands%20bot",
-    "MONGO_URI": "mongodb://squ1d:9ULRjAbpEEVWKKcn@squ1dbot-shard-00-00.kk3hm.mongodb.net:27017,squ1dbot-shard-00-01.kk3hm.mongodb.net:27017,squ1dbot-shard-00-02.kk3hm.mongodb.net:27017/squ1dbot?ssl=true&replicaSet=atlas-felmbb-shard-0&authSource=admin&retryWrites=true&w=majority",
 
     "CLIENT_ACTIVITY": {
         "STATUS": "dnd",
