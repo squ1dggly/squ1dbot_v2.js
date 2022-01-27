@@ -3,6 +3,8 @@
 // A very advanced Discord bot powered by an A.S.S (Artificial Stupidity System) system.
 // Created and maintained by (squ1d) very original name, I know.
 
+require('dotenv').config();
+
 const fs = require('fs');
 
 const { Client, Intents, Collection } = require('discord.js');
