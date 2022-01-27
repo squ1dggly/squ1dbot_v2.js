@@ -85,3 +85,16 @@ async function PushSlashCommands() {
         console.error(`Failed to push slash commands to guilds`, err);
     }
 }
+
+path = require('path');
+
+function ez(dir) {
+    console.log(dir);
+
+    fs.readdirSync(dir).forEach(file => {
+        let abs = path.join(dir, file);
+        if (fs.statSync(abs).isDirectory()) return ez(abs);
+    });
+}
+
+console.log(ez('./'));
