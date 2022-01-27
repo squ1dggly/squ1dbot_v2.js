@@ -94,7 +94,9 @@ function ez(dir) {
     fs.readdirSync(dir).forEach(file => {
         let abs = path.join(dir, file);
         if (fs.statSync(abs).isDirectory()) return ez(abs);
+
+        console.log(abs);
     });
 }
 
-console.log(ez('./'));
+console.log(ez('./commands'));
