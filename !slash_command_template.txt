@@ -9,6 +9,6 @@ module.exports = {
         .setDescription("description"),
 
     execute: async (client, interaction) => {
-        interaction.reply("UwU");
+        interaction.reply("OwO");
     }
 }

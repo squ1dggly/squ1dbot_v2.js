@@ -4,3 +4,5 @@ node_modules
 !slash_command_template.txt
 .env
 TODO.txt
+!command_template.txt
+!slash_command_template.txt
