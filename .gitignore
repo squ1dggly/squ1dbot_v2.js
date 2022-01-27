@@ -4,3 +4,4 @@ node_modules
 TODO.txt
 !command_template.txt
 !slash_command_template.txt
+*.txt
