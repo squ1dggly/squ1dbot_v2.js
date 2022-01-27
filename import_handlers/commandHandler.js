@@ -10,7 +10,7 @@ function ImportAllCommands(dir, arr) {
         if (fs.statSync(abs).isDirectory())
             return ImportAllCommands(abs, arr);
         else if (abs.endsWith('.js')) {
-            let cmd = require(`..\\${abs}`);
+            let cmd = require(`./${abs}` || `../${abs}`);
             if (cmd.name) return arr.push(cmd);
         }
     });
