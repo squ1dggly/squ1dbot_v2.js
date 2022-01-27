@@ -1,0 +1,6 @@
+.vscode
+node_modules
+!command_template.txt
+!slash_command_template.txt
+.env
+TODO.txt

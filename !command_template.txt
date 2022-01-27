@@ -1,0 +1,16 @@
+// Information regarding what this command does.
+
+const cmdName = "ping";
+const aliases = [];
+
+const description = "Information regarding what this command does.";
+
+module.exports = {
+    name: cmdName,
+    aliases: aliases,
+    description: description,
+
+    execute: async (client, message) => {
+        message.channel.send("Pong!");
+    }
+}
