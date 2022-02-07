@@ -14,8 +14,10 @@ module.exports = {
         if (message.author.id === client.user.id) return;
 
         let client_mentions = [userMention(client.user.id), memberNicknameMention(client.user.id)];
-        let client_nickname = message.guild.me.nickname.toLowerCase();
-        let client_displayName = message.guild.me.displayName.toLowerCase();
+        let client_nickname = message.guild.me.nickname || null;
+        if (client_nickname) client_nickname = client_nickname.toLowerCase();
+        let client_displayName = message.guild.me.displayName || null;
+        if (client_displayName) client_displayName = client_displayName.toLowerCase();
 
         let conditions = [client_displayName, client_nickname, client_mentions[0], client_mentions[1]];
         let wasMentioned = conditions.some(c => message.content.toLowerCase().includes(c));
@@ -24,6 +26,7 @@ module.exports = {
         // pick the appropriate response to whatever the first keyword was in the user's message
         if (wasMentioned) {
             let response = DetermineResponse(message, guildData);
+
             if (response)
                 message.reply({ content: response, allowedMentions: { repliedUser: false } });
         }
@@ -34,10 +37,10 @@ module.exports = {
 function DetermineResponse(message, guildData) {
     let messageContent = message.content.toLowerCase();
 
-    let keywordUsed = keywords.find(kwrd => messageContent.includes(kwrd));
+    let keywordUsed; keywords.some(kwrds => keywordUsed = kwrds.find(kwrd => messageContent.includes(kwrd)));
     if (!keywordUsed) return;
 
-    let keywordIndex = keywords.findIndex(kwrd => kwrd === keywordUsed);
+    let keywordIndex = keywords.findIndex(kwrds => kwrds.some(kwrd => kwrd === keywordUsed));
 
     return RandomChoice(responses[keywordIndex])
         .replace("$TAGUSER", `${message.author}`)

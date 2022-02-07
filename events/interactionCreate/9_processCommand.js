@@ -13,7 +13,7 @@ module.exports = {
     execute: async (client, interaction, guildData) => {
         // If the interaction received wasn't actually a command cancel the remaining functions in this script
         if (!interaction.isCommand()) return;
-        interaction.deferReply(); // QUESTION: (deferReply) or (deferUpdate)?
+        await interaction.deferReply();
 
         // Gets the appropriate command if it exists
         let command = client.slashCommands.get(interaction.commandName);

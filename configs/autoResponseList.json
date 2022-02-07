@@ -24,6 +24,7 @@
             "how's it goin",
             "how's it goin'",
             "how it going",
+            "how are you",
             "how it be"
         ],
 
@@ -42,7 +43,7 @@
         [
             "Hey there! My prefix is `$CLIENTPREFIX`",
             "How's it going! My prefix is `$CLIENTPREFIX`",
-            "My prefix is currently `$CLIENTPREFIX`, but you can also tag me inplace of the prefix!"
+            "My prefix is currently `$CLIENTPREFIX`, but you can also tag me in place of the prefix!"
         ],
 
         [
