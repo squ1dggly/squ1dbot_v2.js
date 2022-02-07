@@ -14,10 +14,11 @@ module.exports = {
         if (message.author.id === client.user.id) return;
 
         let client_mentions = [userMention(client.user.id), memberNicknameMention(client.user.id)];
+
+        let client_displayName = message.guild.me.user.username || null;
+        if (client_displayName) client_displayName = client_displayName.toLowerCase();
         let client_nickname = message.guild.me.nickname || null;
         if (client_nickname) client_nickname = client_nickname.toLowerCase();
-        let client_displayName = message.guild.me.displayName || null;
-        if (client_displayName) client_displayName = client_displayName.toLowerCase();
 
         let conditions = [client_displayName, client_nickname, client_mentions[0], client_mentions[1]];
         let wasMentioned = conditions.some(c => message.content.toLowerCase().includes(c));
@@ -44,9 +45,9 @@ function DetermineResponse(message, guildData) {
 
     return RandomChoice(responses[keywordIndex])
         .replace("$TAGUSER", `${message.author}`)
+        .replace("$USERUSERNAME", `${message.member.user.username}`)
         .replace("$USERDISPLAYNAME", `${message.member.displayName}`)
-        .replace("$USERNICK", `${message.member.nickname}`)
         .replace("$CLIENTPREFIX", guildData.guildPrefixes[0])
-        .replace("$CLIENTDISPLAYNAME", message.guild.me.displayName)
-        .replace("$CLIENTNICK", message.guild.me.nickname);
+        .replace("$CLIENTUSERNAME", message.guild.me.user.username)
+        .replace("$CLIENTDISPLAYNAME", message.guild.me.displayName);
 }

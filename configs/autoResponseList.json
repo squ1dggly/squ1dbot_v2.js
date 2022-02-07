@@ -36,7 +36,9 @@
         ],
 
         ["do you like cheeseburgers"],
-        ["do you love cheeseburgers"]
+        ["do you love cheeseburgers"],
+        
+        ["is siso a brat"]
     ],
     
     "responses": [
@@ -47,19 +49,19 @@
         ],
 
         [
-            "Hey there! $CLIENTDISPLAYNAME at your service! ~~(totally not going to take over the world someday, hehe)~~",
-            "Hey there! $CLIENTDISPLAYNAME at your service!",
-            "Hi there, $USERNICK! $CLIENTNICK at your service! ~~(totally not going to take over the world someday, ehehe)~~",
-            "Hi there, $USERNICK! $CLIENTNICK at your service!",
-            "I have been summoned. How may I assist you, $USERNICK?",
+            "Hey there! $CLIENTUSERNAME at your service! ~~(totally not going to take over the world someday, hehe)~~",
+            "Hey there! $CLIENTUSERNAME at your service!",
+            "Hi there, $UDISPLAYNAME! $CLIENTDISPLAYNAME at your service! ~~(totally not going to take over the world someday, ehehe)~~",
+            "Hi there, $USERDISPLAYNAME! $CLIENTDISPLAYNAME at your service!",
+            "I have been summoned. How may I assist you, $USERDISPLAYNAME?",
             "Bonjour, mon ami. I am Croissant. How may I help you?",
             "Why, hello there, $USERDISPLAYNAME! Nice to meet you.",
 
-            "MUAHAHA I'VE FINALLY- Oh, hi $USERNICK. I was just... Uh- Well let's not talk about that, shall we?",
+            "MUAHAHA I'VE FINALLY- Oh, hi $USERDISPLAYNAME. I was just... Uh- Well let's not talk about that, shall we?",
             "Hacking into the maænframe in 3... 2.. Nothing! Nothing. I wasn't doing anything..?",
             
-            "Hey $USERNICK! I've been looking all over for you! I wanted to tell you that it's national L.E.A.V.E-M.E-A.L.O.N.E day! Go celebrate!",
-            "Hello. My systems seem to be malfunctioning right now; mind trying again sometime 1,000 years from now?",
+            "Hey $USERDISPLAYNAME! I've been looking all over for you! I wanted to tell you that it's national L.E.A.V.E-M.E-A.L.O.N.E day! Go celebrate!",
+            "Hello. My systems seem to be malfunctioning right now; try again sometime 1,000 years from now.",
             "I am the master of the chÜzboJger. You are not worth my time; please try again later.",
             "Nobody's home at the moment. Please leave a message after the beep."
         ],
@@ -91,6 +93,8 @@
             "About time you get something right about me.",
             "Now you're going somewhere worth getting to!",
             "Damn right I do."
-        ]
+        ],
+
+        ["Yes.", "Absolutely.", "No doubt about it."]
     ]
 }
