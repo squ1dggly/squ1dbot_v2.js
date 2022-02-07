@@ -50,5 +50,5 @@ async function PurgeMessages(channel, amount, keyword) {
     }
 
     channel.bulkDelete(amount);
-    channel.send(response).then(msg => setTimeout(() => msg.delete(), clientSettings.MSGTIMEOUT_TASKCOMPLETED));
+    channel.send(response).then(msg => setTimeout(() => msg.delete(), timeouts.warningMessage.ALERT));
 }

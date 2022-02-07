@@ -6,7 +6,7 @@ const { time } = require('@discordjs/builders');
 module.exports = {
     deletedMessage_LS: (message) => {
         let embed = new MessageEmbed()
-            .setAuthor(`A message by ${message.author.tag} was deleted`, message.author.displayAvatarURL())
+            .setAuthor({ name: `A message by ${message.author.tag} was deleted`, url: message.author.displayAvatarURL() })
     
             .addField("Message Author", `${message.author}`, true)
             .addField("Message Channel", `${message.channel}`, true)

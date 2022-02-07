@@ -1,45 +1,49 @@
-// Checks for trigger words inside a user's message and chooses a response to them.
+// Checks for keywords inside a user's message and chooses a response to them.
 
-const autoresTriggers = require('../../configs/autores_triggers.json').data;
-const autoresResponses = require('../../configs/autores_responses.json').data;
+const { userMention, memberNicknameMention } = require('@discordjs/builders');
+const { RandomChoice } = require('../../modules/jsTools');
 
-function determineResponse(message) {
-    let choices;
-    let response;
-
-    for (const t_index in autoresTriggers)
-        autoresTriggers[t_index].forEach(trigger => {
-            if (message.includes(trigger)) {
-                choices = autoresResponses[t_index];
-                response = choices[Math.floor(Math.random() * choices.length)];
-            }
-        });
-
-    return response;
-}
+const { keywords, responses } = require('../../configs/autoResponseList.json');
 
 module.exports = {
     name: "Process Response",
     event: "messageCreate",
 
-    execute: async (client, message) => {
-        if (message.author.id == client.user.id) return;
+    execute: async (client, message, guildData) => {
+        // Prevents the bot from replying to itself
+        if (message.author.id === client.user.id) return;
 
-        let content = message.content.toLowerCase();
+        let client_mentions = [userMention(client.user.id), memberNicknameMention(client.user.id)];
+        let client_nickname = message.guild.me.nickname.toLowerCase();
+        let client_displayName = message.guild.me.displayName.toLowerCase();
 
-        let clientMention = [`<@${client.user.id}>`, `<@!${client.user.id}>`];
-        let clientNickname;
+        let conditions = [client_displayName, client_nickname, client_mentions[0], client_mentions[1]];
+        let wasMentioned = conditions.some(c => message.content.toLowerCase().includes(c));
 
-        try { clientNickname = message.guild.me.nickname.toLowerCase(); } catch { clientNickname = ""; }
-
-        let conditions = ["squ1dbot", "squ1dboat", clientNickname, clientMention[0], clientMention[1]];
-        let mentioned = conditions.some(c => content.includes(c));
-
-        // If the user mentioned the bot in their message:
-        if (mentioned) {
-            let response = determineResponse(content);
-
-            if (response) message.reply({ content: response, allowedMentions: { repliedUser: false } });
+        // If the bot was either tagged or it's name/nickname was in the user's message
+        // pick the appropriate response to whatever the first keyword was in the user's message
+        if (wasMentioned) {
+            let response = DetermineResponse(message, guildData);
+            if (response)
+                message.reply({ content: response, allowedMentions: { repliedUser: false } });
         }
     }
+}
+
+// >> Custom Functions
+function DetermineResponse(message, guildData) {
+    let messageContent = message.content.toLowerCase();
+
+    let keywordUsed = keywords.find(kwrd => messageContent.includes(kwrd));
+    if (!keywordUsed) return;
+
+    let keywordIndex = keywords.findIndex(kwrd => kwrd === keywordUsed);
+
+    return RandomChoice(responses[keywordIndex])
+        .replace("$TAGUSER", `${message.author}`)
+        .replace("$USERDISPLAYNAME", `${message.member.displayName}`)
+        .replace("$USERNICK", `${message.member.nickname}`)
+        .replace("$CLIENTPREFIX", guildData.guildPrefixes[0])
+        .replace("$CLIENTDISPLAYNAME", message.guild.me.displayName)
+        .replace("$CLIENTNICK", message.guild.me.nickname);
 }

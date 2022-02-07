@@ -26,7 +26,10 @@ module.exports = {
                 name: cmd.name,
                 aliases: cmd.aliases,
                 description: cmd.description,
+                specialPermissions: cmd.specialPermisions || null,
+                requireGuildMemberHaveAdmin: cmd.requireGuildMemberHaveAdmin || false,
                 execute: cmd.execute
+                
             });
 
             if (cmd.aliases.length > 0)
@@ -35,6 +38,8 @@ module.exports = {
                         name: cmd.name,
                         alias: ali,
                         description: cmd.description,
+                        specialPermissions: cmd.specialPermisionsRequired || null,
+                        requireGuildMemberHaveAdmin: cmd.requireGuildMemberHaveAdmin || false,
                         execute: cmd.execute
                     });
                 });

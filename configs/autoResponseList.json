@@ -1,0 +1,95 @@
+{
+    "keywords": [
+        [
+            "what is your prefix",
+            "what is ur prefix",
+            "what's your prefix",
+            "what's ur prefix",
+            "prefix?"
+        ],
+        
+        [
+            "what's up",
+            "what is up",
+            "what up",
+            "wsg",
+            "hello",
+            "hey",
+            "hi",
+            "hola",
+            "bonjour",
+
+            "how's it going",
+            "how is it going",
+            "how's it goin",
+            "how's it goin'",
+            "how it going",
+            "how it be"
+        ],
+
+        [
+            "rise from thine grave",
+            "rise from thy grave",
+            "i summon thee",
+            "come here"
+        ],
+
+        ["do you like cheeseburgers"],
+        ["do you love cheeseburgers"]
+    ],
+    
+    "responses": [
+        [
+            "Hey there! My prefix is `$CLIENTPREFIX`",
+            "How's it going! My prefix is `$CLIENTPREFIX`",
+            "My prefix is currently `$CLIENTPREFIX`, but you can also tag me inplace of the prefix!"
+        ],
+
+        [
+            "Hey there! $CLIENTDISPLAYNAME at your service! ~~(totally not going to take over the world someday, hehe)~~",
+            "Hey there! $CLIENTDISPLAYNAME at your service!",
+            "Hi there, $USERNICK! $CLIENTNICK at your service! ~~(totally not going to take over the world someday, ehehe)~~",
+            "Hi there, $USERNICK! $CLIENTNICK at your service!",
+            "I have been summoned. How may I assist you, $USERNICK?",
+            "Bonjour, mon ami. I am Croissant. How may I help you?",
+            "Why, hello there, $USERDISPLAYNAME! Nice to meet you.",
+
+            "MUAHAHA I'VE FINALLY- Oh, hi $USERNICK. I was just... Uh- Well let's not talk about that, shall we?",
+            "Hacking into the maænframe in 3... 2.. Nothing! Nothing. I wasn't doing anything..?",
+            
+            "Hey $USERNICK! I've been looking all over for you! I wanted to tell you that it's national L.E.A.V.E-M.E-A.L.O.N.E day! Go celebrate!",
+            "Hello. My systems seem to be malfunctioning right now; mind trying again sometime 1,000 years from now?",
+            "I am the master of the chÜzboJger. You are not worth my time; please try again later.",
+            "Nobody's home at the moment. Please leave a message after the beep."
+        ],
+
+        [
+            "I have better things to attend to than being here. Like... Oh, I don't know... Stealing the secret recipe to make the perfect cheeseburger.",
+            "Have you ever considered if I wanted to be summoned or not? I bet you wouldn't like it if I summoned *you* for no reason!",
+            "Ah, yes. I'm assuming my triple bossy deluxe order is ready? Because if not, I'm going to have to mute you.",
+            "Y'know... Croissants are actually pretty good. I'mma go get one real quick. I'll be back in 420 years.",
+            "Hey, I don't have to take orders from you! I'm the god of the sawnwich with chesse and beef!",
+            "And you interrupted me for this? I was in the middle of buttering my chezbourger. D:<",
+            "Uhh, I'll take a double triple bossy deluxe, on a raft, 4x4 animal style...",
+            "You must deposit 1 cheeseburger as payment before I can talk to you.",
+            "When the going gets tough, the tough get going. Bye, I'm going.",
+            "Are you a cheeseburger? No? Then get away from me!",
+            "Oh hello there. Is this the Krusty Krab?",
+            "No, I don't think I want to be summoned.",
+            "I didn't ask to be summoned, now did I?",
+            "No."
+        ],
+
+        [
+            "They don't call me Pickle Bob for nothing!",
+            "Why, of course.",
+            "I do infact love cheeseburgers.", 
+            "I don't like them... I LOVE them. Get it right."
+        ],
+        [
+            "About time you get something right about me.",
+            "Now you're going somewhere worth getting to!",
+            "Damn right I do."
+        ]
+    ]
+}

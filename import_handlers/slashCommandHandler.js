@@ -24,7 +24,12 @@ module.exports = {
         let slash_commands = importSlashCommands('../slash_commands');
 
         slash_commands.forEach(cmd => {
-            client.slashCommands.set(cmd.data.name, { isAdminCommand: cmd.isAdminCommand || false, data: cmd.data, execute: cmd.execute });
+            client.slashCommands.set(cmd.data.name, {
+                data: cmd.data,
+                execute: cmd.execute,
+                specialPermissions: cmd.specialPermisionsRequired || null,
+                requireGuildMemberHaveAdmin: cmd.requireGuildMemberHaveAdmin || false
+            });
         });
     }
 }

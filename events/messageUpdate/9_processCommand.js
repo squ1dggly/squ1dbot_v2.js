@@ -9,24 +9,24 @@ const { clientPermissionsUnavailable_ES } = require('../../embed_styles/guildInf
 
 module.exports = {
     name: "Process Command",
-    event: "messageCreate",
+    event: "messageUpdate",
 
     execute: async (client, message, guildData) => {
         // Prevents the bot from responding to itself and other bots
-        if (message.author.id === client.user.id) return;
-        if (message.author.bot) return;
+        if (message.after.author.id === client.user.id) return;
+        if (message.after.author.bot) return;
 
         // Checks if the message starts with one of our command prefixes
-        let prefixUsed = StartsWithPrefix(message.content, guildData);
+        let prefixUsed = StartsWithPrefix(message.after.content, guildData);
         if (!prefixUsed) return;
 
         // Prevents users from spamming commands
-        if (MessageCooldownCheck(client, message))
-            if (await message.fetch())
-                return await message.react("⏳");
+        if (MessageCooldownCheck(client, message.after))
+            if (await message.after.fetch())
+                return await message.after.react("⏳");
 
         // Formats our message since the message did contain one of our prefixes
-        let messageContent = message.content.toLowerCase().substring(prefixUsed.length);
+        let messageContent = message.after.content.toLowerCase().substring(prefixUsed.length);
         let args = messageContent.split(" ");
 
         // Gets the appropriate command if it exists
@@ -37,16 +37,16 @@ module.exports = {
                 // If the command is an admin command
                 // prevent the user from running the command if they themselves don't have administrative permission in the guild
                 if (command.requireGuildMemberHaveAdmin) {
-                    let specialPermissionTest = TestForPermissions(message.member.permissions, Permissions.FLAGS.ADMINISTRATOR);
+                    let specialPermissionTest = TestForPermissions(message.after.member.permissions, Permissions.FLAGS.ADMINISTRATOR);
                     if (!specialPermissionTest.passed)
-                        return await message.reply({ content: `Look who showed up with a knife to a gun fight.\nYou don't seem to have the \`${specialPermissionTest.requiredPermissions}\` permission. How do you expect to use this command?` });
+                        return await message.after.reply({ content: `Look who showed up with a knife to a gun fight.\nYou don't seem to have the \`${specialPermissionTest.requiredPermissions}\` permission. How do you expect to use this command?` });
                 }
 
                 // Checks if we have the required permissions if the command uses anything special
                 if (command.specialPermissions) {
-                    let specialPermissionTest = TestForPermissions(message.guild.me.permissions, command.specialPermissions);
+                    let specialPermissionTest = TestForPermissions(message.after.guild.me.permissions, command.specialPermissions);
                     if (!specialPermissionTest.passed)
-                        return await message.reply({ embeds: [clientPermissionsUnavailable_ES(specialPermissionTest.requiredPermissions)] });
+                        return await message.after.reply({ embeds: [clientPermissionsUnavailable_ES(specialPermissionTest.requiredPermissions)] });
                 }
 
                 // Now that that's out of the way... Let's actually run the command if we're able to
@@ -62,10 +62,10 @@ module.exports = {
                     splitContent: (seperator) => { return args.join(" ").split(seperator); }
                 }
 
-                return await command.execute(client, message, commandData);
+                return await command.execute(client, message.after, commandData);
             } catch (err) {
                 console.error(`Failed to execute command \"${command.name}\"`, err);
-                return await message.reply(errorMsg.COMMANDFAILEDMISERABLY.replace("$CMDNAME", command.name));
+                return await message.after.reply(errorMsg.COMMANDFAILEDMISERABLY.replace("$CMDNAME", command.name));
             }
         }
     }

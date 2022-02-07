@@ -3,32 +3,6 @@
 const fs = require('fs');
 const mongo = require('../modules/mongo');
 
-function importEventFunctions(dir) {
-    let files = fs.readdirSync(dir.substring(1)).filter(fn => fn.endsWith('.js'));
-    let funcs = [];
-
-    files.forEach(fn => funcs.push(require(`${dir}/${fn}`)));
-
-    return funcs;
-}
-
-async function getGuildData(client, guild) {
-    let guildData = null;
-
-    if (guild)
-        if (await mongo.checkGuildExists(guild.id))
-            guildData = await mongo.getGuild(guild.id);
-        else
-            guildData = await mongo.insertNewGuild(guild.id, guild, client);
-
-    return guildData;
-}
-
-function executeEvent(func, ...args ) {
-    try { func.execute.apply(null, args); }
-    catch (err) { console.error(`Failed to execute event function \"${func.name}\" on event \"${func.event}\"`, err); }
-}
-
 module.exports = {
     getGuildData: getGuildData,
     
@@ -39,6 +13,7 @@ module.exports = {
         let event_guildMemberAdd = importEventFunctions('../events/guildMemberAdd');
 
         let event_messageCreate = importEventFunctions('../events/messageCreate');
+        let event_messageUpdate = importEventFunctions('../events/messageUpdate');
         let event_messageDelete = importEventFunctions('../events/messageDelete');
 
         let event_interactionCreate = importEventFunctions('../events/interactionCreate');
@@ -56,7 +31,7 @@ module.exports = {
             });
         });
 
-        // Guild Member Add
+        // Guild /ember Add
         client.on("guildMemberAdd", async (guild_member) => {
             getGuildData(client, guild_member.guild).then(guildData => {
                 event_guildMemberAdd.forEach(func => executeEvent(func, client, guild_member, guildData));
@@ -67,6 +42,15 @@ module.exports = {
         client.on("messageCreate", async (message) => {
             getGuildData(client, message.guild).then(guildData => {
                 event_messageCreate.forEach(func => executeEvent(func, client, message, guildData));
+            });
+        });
+
+        // Message Update
+        client.on("messageUpdate", async (before, after) => {
+            let message = { before: before, after: after };
+
+            getGuildData(client, message.after.guild).then(guildData => {
+                event_messageUpdate.forEach(func => executeEvent(func, client, message, guildData));
             });
         });
 
@@ -83,5 +67,34 @@ module.exports = {
                 event_interactionCreate.forEach(func => executeEvent(func, client, interaction, guildData));
             });
         });
+    }
+}
+
+// >> Custom Functions
+function importEventFunctions(dir) {
+    let files = fs.readdirSync(dir.substring(1)).filter(fn => fn.endsWith('.js'));
+    let funcs = [];
+
+    files.forEach(fn => funcs.push(require(`${dir}/${fn}`)));
+    return funcs;
+}
+
+async function getGuildData(client, guild) {
+    let guildData;
+
+    if (guild)
+        if (await mongo.checkGuildExists(guild.id))
+            guildData = await mongo.getGuild(guild.id);
+        else
+            guildData = await mongo.insertNewGuild(guild.id, guild, client);
+
+    return guildData;
+}
+
+function executeEvent(func, ...args ) {
+    try {
+        func.execute.apply(null, args);
+    } catch (err) {
+        console.error(`Failed to execute event function \"${func.name}\" on event \"${func.event}\"`, err);
     }
 }

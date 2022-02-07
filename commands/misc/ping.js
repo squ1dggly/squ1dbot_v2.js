@@ -16,10 +16,11 @@ module.exports = {
         let botMS = client.ws.ping;
         let commandMS = pongedMessage.createdTimestamp - message.createdTimestamp;
 
-        pongedMessage.edit(`**Pong!**\nBot: ${formatNumberString(botMS)}ms\nMessage: ${formatNumberString(commandMS)}ms`);
+        return await pongedMessage.edit(`**Pong!**\nBot: ${formatNumberString(botMS)}ms\nMessages: ${formatNumberString(commandMS)}ms`);
     }
 }
 
+// >> Custom Functions
 function formatNumberString(str) {
     return str.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }

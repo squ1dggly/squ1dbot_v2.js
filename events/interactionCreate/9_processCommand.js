@@ -1,33 +1,49 @@
 // Processes interaction commands.
 
-const clientSettings = require('../../configs/clientSettings.json');
+const { Permissions } = require('discord.js');
+
+const { errorMsg } = require('../../configs/clientSettings.json');
+const { TestForPermissions } = require('../../modules/guildPermissionTools');
+const { clientPermissionsUnavailable_ES } = require('../../embed_styles/guildInfoStyles');
 
 module.exports = {
     name: "Process Command",
     event: "interactionCreate",
 
-    execute: async (client, interaction, guild_data) => {
+    execute: async (client, interaction, guildData) => {
+        // If the interaction received wasn't actually a command cancel the remaining functions in this script
         if (!interaction.isCommand()) return;
+        interaction.deferReply(); // QUESTION: (deferReply) or (deferUpdate)?
 
-        let cmd = client.slashCommands.get(interaction.commandName);
-        if (!cmd) return;
+        // Gets the appropriate command if it exists
+        let command = client.slashCommands.get(interaction.commandName);
 
-        try {
-            if (cmd.isAdminCommand) {
-                // Checks if the bot has admin perms:
-                if (!interaction.guild.me.permissions.has("ADMINISTRATOR"))
-                    return interaction.reply("I don't have permission to execute this command. Give me admin when?");
-
-                // Check if the user that called the interaction is either an (admin) or the (bot creator):
-                if (!interaction.member.permissions.has("ADMINISTRATOR"))
-                    if (!interaction.user.id != clientSettings.CREATOR_ID) {
-                        let responses = clientSettings.ERRORMSG_NOADMINPERMS;
-                        return interaction.reply({ content: responses[Math.floor(Math.random() * responses.length)], ephemeral: true });
-                    }
+        if (command) {
+            try {
+                // If the command is an admin command
+                // prevent the user from running the command if they themselves don't have administrative permission in the guild
+                if (command.requireGuildMemberHaveAdmin) {
+                    let specialPermissionTest = TestForPermissions(interaction.member.permissions, Permissions.FLAGS.ADMINISTRATOR);
+                    if (!specialPermissionTest.passed)
+                        return await interaction.editReply({
+                            content: `Look who showed up with a knife to a gun fight.\nYou don't seem to have the \`${specialPermissionTest.requiredPermissions}\` permission. How do you expect to use this command?`,
+                            ephemeral: true
+                        });
                 }
-            
-            cmd.execute(client, interaction, guild_data);
+
+                // Checks if we have the required permissions if the command uses anything special
+                if (command.specialPermissions) {
+                    let specialPermissionTest = TestForPermissions(interaction.guild.me.permissions, command.specialPermissions);
+                    if (!specialPermissionTest.passed)
+                        return await interaction.editReply({ embeds: [clientPermissionsUnavailable_ES(specialPermissionTest.requiredPermissions)] });
+                }
+
+                // Now that that's out of the way... Let's actually run the command if we're able to
+                command.execute(client, interaction, guildData);
+            } catch (err) {
+                console.error(`Failed to execute slash command \"${command.data.name}\"`, err);
+                return await interaction.editReply(errorMsg.COMMANDFAILEDMISERABLY.replace("$CMDNAME", command.data.name));
+            }
         }
-        catch (err) { console.error(`Failed to execute slash command \"${cmd.data.name}\"`, err); }
     }
 }

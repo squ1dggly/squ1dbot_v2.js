@@ -3,7 +3,7 @@
 const { MessageEmbed } = require('discord.js');
 const { time } = require('@discordjs/builders');
 
-// const clientSettings = require('../configs/clientSettings.json');
+const { embedColor } = require('../configs/clientSettings.json');
 
 module.exports = {
     roleInfo_ES: (role, keyPermissions) => {
@@ -116,6 +116,15 @@ module.exports = {
             .setColor(member_color);
 
         // TODO: set embed thumbnail to "permissions" icon instead of member's pfp
+
+        return embed;
+    },
+
+    clientPermissionsUnavailable_ES: (permissionList) => {
+        let embed = new MessageEmbed()
+            .setTitle("Access Denied:")
+            .addField("I do not have the following permissions needed run this command:", permissionList)
+            .setColor(embedColor.ERROR);
 
         return embed;
     }

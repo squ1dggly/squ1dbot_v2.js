@@ -1,13 +1,16 @@
 {
   "name": "squ1dbot_v2",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A discord bot created and maintained by squ1d.",
+  "main": "app.js",
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+
+  "author": "squ1d",
   "license": "ISC",
+
   "dependencies": {
     "@discordjs/builders": "^0.6.0",
     "@discordjs/rest": "^0.1.0-canary.0",
@@ -17,10 +20,12 @@
     "mongoose": "^6.0.10",
     "node-fetch": "^2.6.5"
   },
-  "engines": {
-    "node": "16.x"
-  },
+
   "devDependencies": {
     "@types/node-fetch": "^3.0.3"
+  },
+
+  "engines": {
+    "node": "16.x"
   }
 }

@@ -1,4 +1,4 @@
-// Keeps chats clean by preventing a user by spamming too many messages.
+// Keeps chats clean by preventing a user from spamming too many messages.
 
 const clientSettings = require('../../configs/clientSettings.json');
 

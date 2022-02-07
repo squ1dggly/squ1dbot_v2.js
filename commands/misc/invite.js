@@ -17,6 +17,6 @@ module.exports = {
         let action_row = new MessageActionRow().addComponents(
             new MessageButton({ label: "INVITE", style: "LINK", url: INVITE_LINK }));
 
-        message.channel.send({ content: `Invite me to your fiesta! Drinks are on me! 🍻`, components: [action_row] });
+        return await message.channel.send({ content: `Invite me to your fiesta! Drinks are on me! 🍻`, components: [action_row] });
     }
 }
