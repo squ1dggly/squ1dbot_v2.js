@@ -39,6 +39,6 @@
             "Silly wabbit! Admin is for people who can actually be trusted!"
         ],
 
-        "COMMANDFAILEDMISERABLY": "Uh-oh! Failed to run command: `$CMDNAME`\n<#227851838572068875> has failed at life yet again."
+        "COMMANDFAILEDMISERABLY": "Uh-oh! Failed to run command: `$CMDNAME`\n$CREATORTAG has failed at life yet again."
     }
 }

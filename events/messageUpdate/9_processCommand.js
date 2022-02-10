@@ -3,7 +3,7 @@
 const { Permissions } = require('discord.js');
 
 const { timeouts, errorMsg } = require('../../configs/clientSettings.json');
-const { TestForPermissions } = require('../../modules/guildPermissionTools');
+const { TestForPermissions } = require('../../modules/guildTools');
 const { CleanStringArrayWhitespace } = require('../../modules/jsTools');
 const { clientPermissionsUnavailable_ES } = require('../../embed_styles/guildInfoStyles');
 
@@ -79,13 +79,13 @@ function StartsWithPrefix(message, guildData) {
 
 // Removes all entries if they are over the (MSGTIMEOUT_CMDCOOLDOWN) time limit
 function MessageCooldownCheck(client, message) {
-    for (let entry in client.cmdCooldownCache) {
+    for (let entry in client.cmdCooldownCache)
         if (client.cmdCooldownCache.get(entry) > client.MSGTIMEOUT_CMDCOOLDOWN)
             client.cmdCooldownCache.delete(entry);
-    }
 
     let timeDifference = message.createdTimestamp - client.cmdCooldownCache.get(message.channel.id) || timeouts.cooldown.COMMAND + 1;
-    if (timeDifference >= timeouts.cooldown.command) {
+
+    if (timeDifference >= timeouts.cooldown.COMMAND) {
         client.cmdCooldownCache.set(message.channel.id, message.createdTimestamp);
         return false;
     } else

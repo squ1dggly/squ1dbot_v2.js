@@ -1,5 +1,6 @@
 const { Permissions } = require('discord.js');
 
+// Permissions
 function GetPermissionName(p) {
     switch (perm) {
         case Permissions.FLAGS.ADD_REACTIONS: return "ADD_REATIONS"
@@ -65,7 +66,7 @@ function TestForPermissions(currentPermissions, required) {
 
         if (!currentPermissions.has(required))
             unavailable = GetPermissionName(required);
-            
+
         return {
             passed: (unavailable) ? false : true,
             requiredPermissions: unavailable || ""
@@ -73,7 +74,62 @@ function TestForPermissions(currentPermissions, required) {
     }
 }
 
+// Channels
+async function FetchAndDeleteMessagesInChannel(channel, replyID, amount, includesFilter = null, fromMember = null) {
+    let purgedAmount;
+
+    // Fetch the last 100 messages in the current channel
+    await channel.messages.fetch({ limit: 100 }).then(async messages => {
+        // Filter out the bot's replied message
+        // and cut the array length down to the amount the user actually wanted to delete
+        // also check if we should filter by a specific guild member
+        if (fromMember && includesFilter)
+            messages = messages.filter(msg =>
+                msg.author.id === fromMember.id
+                && msg.content.toLowerCase().includes(includesFilter.toLowerCase())
+                && msg.id != replyID
+            ).map(m => m).slice(0, amount);
+
+        else if (fromMember)
+            messages = messages.filter(msg =>
+                msg.author.id === fromMember.id
+                && msg.id != replyID
+            ).map(m => m).slice(0, amount);
+
+        else if (includesFilter)
+            messages = messages.filter(msg =>
+                msg.content.toLowerCase().includes(includesFilter.toLowerCase())
+                && msg.id != replyID
+            ).map(m => m).slice(0, amount);
+
+        else
+            messages = messages.filter(msg => msg.id != replyID).map(m => m).slice(0, amount);
+
+
+        // Go through each message in the array and delete it from the channel
+        // wait for all the messages to be deleted before continuing
+        await messages.forEach(async msg => await msg.delete());
+        purgedAmount = messages.length;
+    });
+
+    return purgedAmount;
+}
+
+// Members
+// TODO: return "N/A"
+async function GetMemberFromNameOrID(guild, id) {
+    return await guild.members.cache.find(m =>
+    (m.user.username.toLowerCase() === id
+        || m.displayName.toLowerCase() === id
+        || m.id === id
+    ));
+}
+
 module.exports = {
     TestForPermissions: TestForPermissions,
-    GetPermissionName: GetPermissionName
+    GetPermissionName: GetPermissionName,
+
+    FetchAndDeleteMessagesInChannel: FetchAndDeleteMessagesInChannel,
+
+    GetMemberFromNameOrID: GetMemberFromNameOrID
 }

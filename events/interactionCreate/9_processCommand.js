@@ -3,7 +3,7 @@
 const { Permissions } = require('discord.js');
 
 const { errorMsg } = require('../../configs/clientSettings.json');
-const { TestForPermissions } = require('../../modules/guildPermissionTools');
+const { TestForPermissions } = require('../../modules/guildTools');
 const { clientPermissionsUnavailable_ES } = require('../../embed_styles/guildInfoStyles');
 
 module.exports = {

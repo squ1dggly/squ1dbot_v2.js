@@ -1,9 +1,10 @@
 // Process any commands that were run in the user's message.
 
+const { userMention } = require('@discordjs/builders');
 const { Permissions } = require('discord.js');
 
-const { timeouts, errorMsg } = require('../../configs/clientSettings.json');
-const { TestForPermissions } = require('../../modules/guildPermissionTools');
+const { CREATOR_ID, timeouts, errorMsg } = require('../../configs/clientSettings.json');
+const { TestForPermissions } = require('../../modules/guildTools');
 const { CleanStringArrayWhitespace } = require('../../modules/jsTools');
 const { clientPermissionsUnavailable_ES } = require('../../embed_styles/guildInfoStyles');
 
@@ -59,13 +60,22 @@ module.exports = {
                     commandUsed: commandUsed,
                     guildData: guildData,
                     cleanContent: messageContent,
-                    splitContent: (seperator) => { return args.join(" ").split(seperator); }
+                    splitContent: (seperator, lowerCase = false) => {
+                        if (lowerCase)
+                            return CleanStringArrayWhitespace(args.join(" ").toLowerCase().split(seperator));
+                        else
+                            return CleanStringArrayWhitespace(args.join(" ").split(seperator));
+                    }
                 }
 
                 return await command.execute(client, message, commandData);
             } catch (err) {
                 console.error(`Failed to execute command \"${command.name}\"`, err);
-                return await message.reply(errorMsg.COMMANDFAILEDMISERABLY.replace("$CMDNAME", command.name));
+
+                return await message.reply(errorMsg.COMMANDFAILEDMISERABLY
+                    .replace("$CMDNAME", command.name)
+                    .replace("$CREATORTAG", userMention(CREATOR_ID))
+                );
             }
         }
     }
@@ -79,13 +89,13 @@ function StartsWithPrefix(message, guildData) {
 
 // Removes all entries if they are over the (MSGTIMEOUT_CMDCOOLDOWN) time limit
 function MessageCooldownCheck(client, message) {
-    for (let entry in client.cmdCooldownCache) {
+    for (let entry in client.cmdCooldownCache)
         if (client.cmdCooldownCache.get(entry) > client.MSGTIMEOUT_CMDCOOLDOWN)
             client.cmdCooldownCache.delete(entry);
-    }
 
     let timeDifference = message.createdTimestamp - client.cmdCooldownCache.get(message.channel.id) || timeouts.cooldown.COMMAND + 1;
-    if (timeDifference >= timeouts.cooldown.command) {
+
+    if (timeDifference >= timeouts.cooldown.COMMAND) {
         client.cmdCooldownCache.set(message.channel.id, message.createdTimestamp);
         return false;
     } else
