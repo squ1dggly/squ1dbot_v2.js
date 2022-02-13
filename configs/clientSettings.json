@@ -5,7 +5,7 @@
     "CLIENT_ACTIVITY": {
         "STATUS": "dnd",
         "TYPE": "LISTENING",
-        "INFO": "/invite || s!invite || @squ1dboat invite"
+        "INFO": "/invite || s!invite"
     },
 
     "embedColor": {
