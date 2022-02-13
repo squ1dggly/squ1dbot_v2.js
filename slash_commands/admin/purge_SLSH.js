@@ -1,11 +1,14 @@
 // Deletes a specified amount of messages within a channel.
 
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { Permissions } = require('discord.js');
+
 const { FetchAndDeleteMessagesInChannel } = require('../../modules/guildTools');
 const { timeouts } = require('../../configs/clientSettings.json');
 
 module.exports = {
     requireGuildMemberHaveAdmin: true,
+    specialPermissions: [Permissions.FLAGS.MANAGE_MESSAGES],
 
     data: new SlashCommandBuilder()
         .setName("purge")

@@ -1,8 +1,8 @@
 const { Permissions } = require('discord.js');
 
-// Permissions
+// >> Permissions << //
 function GetPermissionName(p) {
-    switch (perm) {
+    switch (p) {
         case Permissions.FLAGS.ADD_REACTIONS: return "ADD_REATIONS"
         case Permissions.FLAGS.ADMINISTRATOR: return "ADMINISTRATOR"
         case Permissions.FLAGS.ATTACH_FILES: return "ATTACH_FILES"
@@ -74,7 +74,13 @@ function TestForPermissions(currentPermissions, required) {
     }
 }
 
-// Channels
+// >> Channels << //
+async function SetMultipleChannelPermissions(channel, permissions = []) {
+    await permissions.forEach(async p => 
+        await channel.permissionOverwrites.edit(perm.role, perm.value)
+    );
+}
+
 async function FetchAndDeleteMessagesInChannel(channel, replyID, amount, includesFilter = null, fromMember = null) {
     let purgedAmount;
 
@@ -115,21 +121,39 @@ async function FetchAndDeleteMessagesInChannel(channel, replyID, amount, include
     return purgedAmount;
 }
 
-// Members
-// TODO: return "N/A"
+async function GetChannelFromNameOrID(guild, id) {
+    return await guild.channels.cache.find(c =>
+        c.name.toLowerCase().includes(id)
+        || c.id === id
+    ) || null;
+}
+
+// >> Members << //
 async function GetMemberFromNameOrID(guild, id) {
     return await guild.members.cache.find(m =>
-    (m.user.username.toLowerCase() === id
+        m.user.username.toLowerCase() === id
         || m.displayName.toLowerCase() === id
         || m.id === id
-    ));
+    ) || null;
+}
+
+// >> Roles << //
+async function GetRoleFromNameOrID(guild, id) {
+    return await guild.roles.cache.find(r =>
+        r.name.toLowerCase() === id
+        || r.id === id
+    ) || null;
 }
 
 module.exports = {
     TestForPermissions: TestForPermissions,
     GetPermissionName: GetPermissionName,
 
+    SetMultipleChannelPermissions: SetMultipleChannelPermissions,
     FetchAndDeleteMessagesInChannel: FetchAndDeleteMessagesInChannel,
+    GetChannelFromNameOrID: GetChannelFromNameOrID,
 
-    GetMemberFromNameOrID: GetMemberFromNameOrID
+    GetMemberFromNameOrID: GetMemberFromNameOrID,
+
+    GetRoleFromNameOrID: GetRoleFromNameOrID
 }

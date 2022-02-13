@@ -17,7 +17,7 @@ module.exports = {
         if (message.after.author.bot) return;
 
         // Checks if the message starts with one of our command prefixes
-        let prefixUsed = StartsWithPrefix(message.after.content, guildData);
+        let prefixUsed = StartsWithPrefix(message.after.content, guildData) || StartsWithName(message.after);
         if (!prefixUsed) return;
 
         // Prevents users from spamming commands
@@ -75,6 +75,17 @@ module.exports = {
 // Checks if the user used any of the bot's prefixes
 function StartsWithPrefix(message, guildData) {
     return guildData.guildPrefixes.find(prfx => message.startsWith(prfx));
+}
+
+// Checks if the user used the bot's name or nickname as the prefix
+function StartsWithName(message) {
+    let message_content = message.content.toLowerCase();
+    let conditions = [
+        `${message.guild.me.user.username.toLowerCase()} `,
+        `${message.guild.me.displayName.toLowerCase()} `
+    ];
+
+    return conditions.find(c => message_content.includes(c));
 }
 
 // Removes all entries if they are over the (MSGTIMEOUT_CMDCOOLDOWN) time limit

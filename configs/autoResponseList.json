@@ -44,22 +44,11 @@
     "responses": [
         [
             "Hey there! My prefix is `$CLIENTPREFIX`",
-            "How's it going! My prefix is `$CLIENTPREFIX`",
+            "Hey, how's it going! My prefix is `$CLIENTPREFIX`",
             "My prefix is currently `$CLIENTPREFIX`, but you can also tag me in place of the prefix!"
         ],
 
-        [
-            "Hey there! $CLIENTUSERNAME at your service! ~~(totally not going to take over the world someday, hehe)~~",
-            "Hey there! $CLIENTUSERNAME at your service!",
-            "Hi there, $UDISPLAYNAME! $CLIENTDISPLAYNAME at your service! ~~(totally not going to take over the world someday, ehehe)~~",
-            "Hi there, $USERDISPLAYNAME! $CLIENTDISPLAYNAME at your service!",
-            "I have been summoned. How may I assist you, $USERDISPLAYNAME?",
-            "Bonjour, mon ami. I am Croissant. How may I help you?",
-            "Why, hello there, $USERDISPLAYNAME! Nice to meet you.",
-
-            "MUAHAHA I'VE FINALLY- Oh, hi $USERDISPLAYNAME. I was just... Uh- Well let's not talk about that, shall we?",
-            "Hacking into the maænframe in 3... 2.. Nothing! Nothing. I wasn't doing anything..?",
-            
+        [            
             "Hey $USERDISPLAYNAME! I've been looking all over for you! I wanted to tell you that it's national L.E.A.V.E-M.E-A.L.O.N.E day! Go celebrate!",
             "Hello. My systems seem to be malfunctioning right now; try again sometime 1,000 years from now.",
             "I am the master of the chÜzboJger. You are not worth my time; please try again later.",
@@ -79,8 +68,19 @@
             "Are you a cheeseburger? No? Then get away from me!",
             "Oh hello there. Is this the Krusty Krab?",
             "No, I don't think I want to be summoned.",
-            "I didn't ask to be summoned, now did I?",
-            "No."
+            "I didn't ask to be summoned. Did I?",
+            "No.",
+
+            "Hey there! $CLIENTUSERNAME at your service! ~~(totally not going to take over the world someday, hehe)~~",
+            "Hey there! $CLIENTUSERNAME at your service!",
+            "Hi there, $UDISPLAYNAME! $CLIENTDISPLAYNAME at your service! ~~(totally not going to take over the world someday, ehehe)~~",
+            "Hi there, $USERDISPLAYNAME! $CLIENTDISPLAYNAME at your service!",
+            "I have been summoned. How may I assist you, $USERDISPLAYNAME?",
+            "Bonjour, mon ami. I am Croissant. How may I help you?",
+            "Why, hello there, $USERDISPLAYNAME! Nice to meet you.",
+
+            "MUAHAHA I'VE FINALLY- Oh, hi $USERDISPLAYNAME. I was just... Uh- Well let's not talk about that, shall we?",
+            "Hacking into the maænframe in 3... 2.. Nothing! Nothing. I wasn't doing anything..?"
         ],
 
         [

@@ -1,7 +1,9 @@
 // Deletes a specified amount of messages within a channel.
 
+const { Permissions } = require('discord.js');
 const { FetchAndDeleteMessagesInChannel, GetMemberFromNameOrID } = require('../../modules/guildTools');
 const { RandomChance } = require('../../modules/jsTools');
+
 const { timeouts } = require('../../configs/clientSettings.json');
 
 const cmdName = "purge";
@@ -14,9 +16,10 @@ module.exports = {
     aliases: aliases,
     description: description,
 
-    requireGuildMemberhaveAdmin: true,
+    requireGuildMemberHaveAdmin: true,
+    specialPermissions: [Permissions.FLAGS.MANAGE_MESSAGES],
 
-    execute: async (client, message, commandData) => {
+    execute: async (client, message, commandData, guildData) => {
         let amount = parseInt(commandData.args[0]) || 0;
         let includes = commandData.splitContent("--i")[1] || null;
         let fromMember = message.mentions.members.first() || null;
@@ -27,9 +30,10 @@ module.exports = {
         if (amount === 0) {
             let tip1 = "*You can optionally filter by member by mention, user ID, or username/nickname.*";
             let tip2 = "*You can also filter by word or phrase by addiing the \`--i\` tag and putting the phrase after.*";
+            let tip3 = `*Format: \`${guildData.prefixes[0]}\`purge 5 --i hello`;
 
             return await message.reply({
-                content: `You've failed to tell me how many messages you wanted to purge.${RandomChance(4) ? `\n\n${tip1}\n${tip2}` : ""}`
+                content: `You've failed to tell me how many messages you wanted to purge.${RandomChance(4) ? `\n\n${tip1}\n${tip2}\n${tip3}` : ""}`
             });
         }
 

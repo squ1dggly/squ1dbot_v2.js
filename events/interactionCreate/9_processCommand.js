@@ -2,9 +2,11 @@
 
 const { Permissions } = require('discord.js');
 
-const { errorMsg } = require('../../configs/clientSettings.json');
-const { TestForPermissions } = require('../../modules/guildTools');
 const { clientPermissionsUnavailable_ES } = require('../../embed_styles/guildInfoStyles');
+const { TestForPermissions } = require('../../modules/guildTools');
+const { RandomChoice } = require('../../modules/jsTools');
+
+const { errorMsg } = require('../../configs/clientSettings.json');
 
 module.exports = {
     name: "Process Command",
@@ -26,7 +28,7 @@ module.exports = {
                     let specialPermissionTest = TestForPermissions(interaction.member.permissions, Permissions.FLAGS.ADMINISTRATOR);
                     if (!specialPermissionTest.passed)
                         return await interaction.editReply({
-                            content: `Look who showed up with a knife to a gun fight.\nYou don't seem to have the \`${specialPermissionTest.requiredPermissions}\` permission. How do you expect to use this command?`,
+                            content: RandomChoice(errorMsg.NOTGUILDADMIN),
                             ephemeral: true
                         });
                 }
@@ -42,7 +44,11 @@ module.exports = {
                 command.execute(client, interaction, guildData);
             } catch (err) {
                 console.error(`Failed to execute slash command \"${command.data.name}\"`, err);
-                return await interaction.editReply(errorMsg.COMMANDFAILEDMISERABLY.replace("$CMDNAME", command.data.name));
+                
+                return await interaction.editReply(RandomChoice(errorMsg.COMMANDFAILEDMISERABLY)
+                    .replace("$CMDNAME", command.name)
+                    .replace("$CREATORTAG", userMention(CREATOR_ID))
+                );
             }
         }
     }

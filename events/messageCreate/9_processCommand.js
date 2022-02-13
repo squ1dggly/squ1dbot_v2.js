@@ -3,10 +3,10 @@
 const { userMention } = require('@discordjs/builders');
 const { Permissions } = require('discord.js');
 
-const { CREATOR_ID, timeouts, errorMsg } = require('../../configs/clientSettings.json');
-const { TestForPermissions } = require('../../modules/guildTools');
-const { CleanStringArrayWhitespace } = require('../../modules/jsTools');
 const { clientPermissionsUnavailable_ES } = require('../../embed_styles/guildInfoStyles');
+const { CREATOR_ID, timeouts, errorMsg } = require('../../configs/clientSettings.json');
+const { CleanStringArrayWhitespace, RandomChoice } = require('../../modules/jsTools');
+const { TestForPermissions } = require('../../modules/guildTools');
 
 module.exports = {
     name: "Process Command",
@@ -18,7 +18,7 @@ module.exports = {
         if (message.author.bot) return;
 
         // Checks if the message starts with one of our command prefixes
-        let prefixUsed = StartsWithPrefix(message.content, guildData);
+        let prefixUsed = StartsWithPrefix(message.content, guildData) || StartsWithName(message);
         if (!prefixUsed) return;
 
         // Prevents users from spamming commands
@@ -40,7 +40,7 @@ module.exports = {
                 if (command.requireGuildMemberHaveAdmin) {
                     let specialPermissionTest = TestForPermissions(message.member.permissions, Permissions.FLAGS.ADMINISTRATOR);
                     if (!specialPermissionTest.passed)
-                        return await message.reply({ content: `Look who showed up with a knife to a gun fight.\nYou don't seem to have the \`${specialPermissionTest.requiredPermissions}\` permission. How do you expect to use this command?` });
+                        return await message.reply({ content: RandomChoice(errorMsg.NOTGUILDADMIN) });
                 }
 
                 // Checks if we have the required permissions if the command uses anything special
@@ -72,7 +72,7 @@ module.exports = {
             } catch (err) {
                 console.error(`Failed to execute command \"${command.name}\"`, err);
 
-                return await message.reply(errorMsg.COMMANDFAILEDMISERABLY
+                return await message.reply(RandomChoice(errorMsg.COMMANDFAILEDMISERABLY)
                     .replace("$CMDNAME", command.name)
                     .replace("$CREATORTAG", userMention(CREATOR_ID))
                 );
@@ -85,6 +85,17 @@ module.exports = {
 // Checks if the user used any of the bot's prefixes
 function StartsWithPrefix(message, guildData) {
     return guildData.guildPrefixes.find(prfx => message.startsWith(prfx));
+}
+
+// Checks if the user used the bot's name or nickname as the prefix
+function StartsWithName(message) {
+    let message_content = message.content.toLowerCase();
+    let conditions = [
+        `${message.guild.me.user.username.toLowerCase()} `,
+        `${message.guild.me.displayName.toLowerCase()} `
+    ];
+
+    return conditions.find(c => message_content.includes(c));
 }
 
 // Removes all entries if they are over the (MSGTIMEOUT_CMDCOOLDOWN) time limit
