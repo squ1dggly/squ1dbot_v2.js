@@ -122,7 +122,9 @@ async function FetchAndDeleteMessagesInChannel(channel, replyID, amount, include
 }
 
 async function GetChannelFromNameOrID(guild, id) {
-    return await guild.channels.cache.find(c =>
+    let guildChannels = await guild.channels.fetch();
+
+    return await guildChannels.find(c =>
         c.name.toLowerCase().includes(id)
         || c.id === id
     ) || null;
@@ -130,17 +132,21 @@ async function GetChannelFromNameOrID(guild, id) {
 
 // >> Members << //
 async function GetMemberFromNameOrID(guild, id) {
-    return await guild.members.cache.find(m =>
-        m.user.username.toLowerCase() === id
-        || m.displayName.toLowerCase() === id
+    let guildMembers = await guild.members.fetch();
+
+    return await guildMembers.find(m =>
+        m.user.username.toLowerCase().includes(id)
+        || m.displayName.toLowerCase().includes(id)
         || m.id === id
     ) || null;
 }
 
 // >> Roles << //
 async function GetRoleFromNameOrID(guild, id) {
-    return await guild.roles.cache.find(r =>
-        r.name.toLowerCase() === id
+    let guildRoles = await guild.roles.fetch();
+
+    return await guildRoles.find(r =>
+        r.name.toLowerCase().includes(id)
         || r.id === id
     ) || null;
 }

@@ -35,15 +35,14 @@ importHandler_dir.forEach(fn => {
     catch (err) { console.error(`Failed to initialize handler: ${fn} is not a valid handler script`, err); }
 });
 
-// Slash command stuff:
-client.on("ready", async () => {
-    // DeleteSlashCommands();
-    // PushSlashCommands();
-});
-
 // Connect to our client using our token:
 console.log("connecting to discord...");
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN).then(async () => {
+    // await DeleteSlashCommands();
+    // await PushSlashCommands();
+
+    console.log("successfully connected to discord");
+});
 
 // >> Custom Functions
 async function DeleteSlashCommands() {

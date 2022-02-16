@@ -2,20 +2,9 @@
 
 const { MessageEmbed } = require('discord.js');
 
-const footers_me = [
-    "you're definitely an 11/10 on my list!",
-    "looking good! keep up the great work!",
-    "you look breathtaking!",
-    "absolutely stunning!"
-];
-
-const footers = [
-    "they've done a great job!",
-    "abosolutely breathtaking!",
-    "absolutely stunning!",
-    "69/10 would smash!",
-    "outstanding form!"
-];
+const { GetMemberFromNameOrID } = require('../../modules/guildTools');
+const { RandomChoice } = require('../../modules/jsTools');
+const { avatarFooters } = require('../../configs/commandResponseList.json');
 
 const cmdName = "avatar";
 const aliases = [];
@@ -28,34 +17,35 @@ module.exports = {
     description: description,
 
     execute: async (client, message, commandData) => {
-        let user = message.mentions.members.first() || commandData.args[0];
-        let guild_member;
+        let guildMember = message.mentions.members.first() || null;
 
-        // Checks if the user mentioned a user to view and if they didn't display their own avatar:
-        if (user)
-            try { guild_member = await message.guild.members.fetch(user.id || user); }
-            catch { return message.channel.send("I wasn't able to find the member you mentioned. That sly dawg!"); }
-        else
-            guild_member = message.member;
-        
-        let avatar_128 = guild_member.user.displayAvatarURL({ dynamic: true, size: 128 });
-        let avatar_256 = guild_member.user.displayAvatarURL({ dynamic: true, size: 256 });
-        let avatar_512 = guild_member.user.displayAvatarURL({ dynamic: true, size: 512 });
-        let avatar_1024 = guild_member.user.displayAvatarURL({ dynamic: true, size: 1024 });
+        // If the (member) argument wasn't a mention or it was a name/nickname/userID try to find the user in the server
+        // and if the user doesn't exist just show the avatar of the current user
+        if (!guildMember && commandData.args[0]) {
+            let fetchedMember = await GetMemberFromNameOrID(message.guild, commandData.args[0].toLowerCase());
 
-        let accent_color = (await message.guild.members.fetch(guild_member.user.id)).displayHexColor.replace("#", "");
+            if (fetchedMember.user) guildMember = fetchedMember;
+            else return await message.reply({
+                content: "I can't see your imaginary friends, dude. Mention someone who actually exists."
+            });
+        } else if (!guildMember && !commandData.args[0])
+            guildMember = message.member;
+
+        let avatar_128 = guildMember.user.displayAvatarURL({ dynamic: true, size: 128 });
+        let avatar_256 = guildMember.user.displayAvatarURL({ dynamic: true, size: 256 });
+        let avatar_512 = guildMember.user.displayAvatarURL({ dynamic: true, size: 512 });
+        let avatar_1024 = guildMember.user.displayAvatarURL({ dynamic: true, size: 1024 });
+
+        let embedAccentColor = (await message.guild.members.fetch(guildMember.id)).displayHexColor.replace("#", "");
+        let displayingSelf = message.author.id === guildMember.user.id;
 
         let embed = new MessageEmbed()
-            .setAuthor(guild_member.user.tag, guild_member.user.avatarURL())
+            .setAuthor({ name: guildMember.displayName, url: guildMember.user.avatarURL() })
             .setDescription(`[128px](${avatar_128}) - [256px](${avatar_256}) - [512px](${avatar_512}) - [1024px](${avatar_1024})`)
             .setImage(avatar_1024)
-            .setColor(accent_color);
+            .setFooter({ text: displayingSelf ? RandomChoice(avatarFooters.me) : RandomChoice(avatarFooters.other) })
+            .setColor(embedAccentColor);
 
-        if (message.author.id == guild_member.user.id)
-            embed.setFooter(footers_me[Math.floor(Math.random() * footers_me.length)]);
-        else
-            embed.setFooter(footers[Math.floor(Math.random() * footers.length)]);
-            
         message.channel.send({ embeds: [embed] });
     }
 }

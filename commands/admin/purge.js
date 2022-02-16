@@ -42,12 +42,10 @@ module.exports = {
         if (!fromMember && commandData.args[1]) {
             let fetchedMember = await GetMemberFromNameOrID(message.guild, commandData.args[1].toLowerCase());
 
-            if (fetchedMember)
-                fromMember = fetchedMember
-            else
-                return await message.reply({
-                    content: "I was unable to find the member you mentioned in the server. Try again or leave it blank to purge all."
-                });
+            if (fetchedMember) fromMember = fetchedMember;
+            else return await message.reply({
+                content: "I was unable to find the member you mentioned in the server. Try again or leave it blank to purge all."
+            });
         }
 
         // Formatted strings for a cleaner reply function below

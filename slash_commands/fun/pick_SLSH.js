@@ -15,12 +15,13 @@ module.exports = {
 
         .addStringOption(option => option.setName("options")
             .setDescription("Seperate options using a comma (,) for multiple choices.").setRequired(true))
+
         .addBooleanOption(option => option.setName("ephemeral")
-            .setDescription("If set to true only you will be able to see this message")),
+            .setDescription("If set to true only you will be able to see this message.")),
 
     execute: async (client, interaction) => {
         let args = CleanStringArrayWhitespace(interaction.options.getString("options").split(","));
-        let ephemeral = interaction.options.getString("ephemeral") || false;
+        let ephemeral = interaction.options.getBoolean("ephemeral") || false;
 
         let embed = new MessageEmbed();
 

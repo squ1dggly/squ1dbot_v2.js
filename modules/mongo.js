@@ -74,7 +74,7 @@ module.exports = {
 
 // Warn creation helper functions:
 function generateWarnId() {
-    let id_length = 9;
+    let id_length = 5;
     let id = "";
 
     for (let i = 0; i < id_length; i++)
@@ -92,7 +92,7 @@ function createWarn(guild_warns, user_id, reason, timestamp) {
 
         data: {
             id: warn_id,
-            userId: user_id,
+            userID: user_id,
 
             timestamp: timestamp,
             reason: reason,
