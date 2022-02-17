@@ -30,7 +30,7 @@ client.cmdCooldownCache = new Collection();
 // Run handlers:
 let importHandler_dir = fs.readdirSync('./import_handlers').filter(fn => fn.endsWith('.js'));
 
-console.log(fs.readdirSync('./'));
+console.log(fs.readdirSync('./events'));
 
 importHandler_dir.forEach(fn => {
     try { require(`./import_handlers/${fn}`).init(client); }
