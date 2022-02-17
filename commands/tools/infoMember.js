@@ -140,7 +140,7 @@ module.exports = {
         }
 
         let member_roles = FormatMemberRoles(guildMember.roles.cache.map(r => r), 9);
-        let member_warns = FormatMemberWarns(await mongo.retrieveUserWarns(message.guild.id, guildMember.id));
+        let member_warns = await mongo.retrieveUserWarns(message.guild.id, guildMember.id);
         
         let member_permisions = FormatMemberPermissions(guildMember.permissions.toArray());
 

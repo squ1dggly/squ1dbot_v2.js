@@ -14,6 +14,6 @@ module.exports = {
         let action_row = new MessageActionRow().addComponents(
             new MessageButton({ label: "INVITE", style: "LINK", url: INVITE_LINK }));
 
-        return await interaction.editReply({ content: `Invite me to your fiesta! Drinks are on me! 🍻`, components: [action_row] });
+        return await interaction.reply({ content: `Invite me to your fiesta! Drinks are on me! 🍻`, components: [action_row] });
     }
 }

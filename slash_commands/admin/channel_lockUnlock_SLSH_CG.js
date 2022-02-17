@@ -53,7 +53,7 @@ async function LockUnlockChannel(interaction, lock) {
             .setColor(lock ? embedColor.ERROR : embedColor.MAIN);
 
         // Send the success embed saying the channel has been locked/unlocked
-        return await interaction.editReply({ embeds: [embed] });
+        return await interaction.reply({ embeds: [embed] });
     } catch {
         // Formatted strings for cleaner embed creation below
         let failedReply = `Failed to ${lock ? "lock" : "unlock"} channel $CHANNEL for role $ROLE`
@@ -66,6 +66,6 @@ async function LockUnlockChannel(interaction, lock) {
             .setColor(embedColor.ERROR);
 
         // Send off our failure to the user
-        return await interaction.editReply({ embeds: [embed] });
+        return await interaction.reply({ embeds: [embed] });
     }
 }

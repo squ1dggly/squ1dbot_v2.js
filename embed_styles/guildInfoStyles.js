@@ -5,6 +5,27 @@ const { time } = require('@discordjs/builders');
 
 const { embedColor } = require('../configs/clientSettings.json');
 
+function FormatMemberWarns(warns, limit) {
+    if (warns.length === 0) return "None";
+
+    if (limit > 0)
+        if (warns.length > limit) {
+            let remainder = warns.length - limit;
+
+            warns = warns.slice(0, limit);
+            warns.push(`*+ ${remainder} more...*`);
+        }
+
+    let formatted = "";
+    warns.forEach(warn => warn.id ? formatted += `${warn.formatted}\n\n` : formatted += warn);
+
+    return {
+        length: warns.length,
+        list: warns,
+        formatted: formatted
+    }
+}
+
 module.exports = {
     roleInfo_ES: (role, keyPermissions) => {
         let created_timestamp = time(role.createdAt, "R");
@@ -74,7 +95,9 @@ module.exports = {
         return embed;
     },
 
-    memberWarns_ES: (member, warns) => {
+    memberWarns_ES: (member, warns, limit) => {
+        warns = FormatMemberWarns(warns, limit);
+
         // TODO: add pages if the list is too long
 
         let member_color = member.roles.highest.hexColor.toUpperCase().replace("#", "");
@@ -127,5 +150,7 @@ module.exports = {
             .setColor(embedColor.ERROR);
 
         return embed;
-    }
+    },
+
+    formatMemberWarns: FormatMemberWarns
 }

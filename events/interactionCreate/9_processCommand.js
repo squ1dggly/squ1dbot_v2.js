@@ -15,7 +15,7 @@ module.exports = {
     execute: async (client, interaction, guildData) => {
         // If the interaction received wasn't actually a command cancel the remaining functions in this script
         if (!interaction.isCommand()) return;
-        await interaction.deferReply();
+        // await interaction.deferReply();
 
         // Gets the appropriate command if it exists
         let command = client.slashCommands.get(interaction.commandName);
@@ -27,7 +27,7 @@ module.exports = {
                 if (command.requireGuildMemberHaveAdmin) {
                     let specialPermissionTest = TestForPermissions(interaction.member.permissions, Permissions.FLAGS.ADMINISTRATOR);
                     if (!specialPermissionTest.passed)
-                        return await interaction.editReply({
+                        return await interaction.reply({
                             content: RandomChoice(errorMsg.NOTGUILDADMIN),
                             ephemeral: true
                         });
@@ -37,7 +37,7 @@ module.exports = {
                 if (command.specialPermissions) {
                     let specialPermissionTest = TestForPermissions(interaction.guild.me.permissions, command.specialPermissions);
                     if (!specialPermissionTest.passed)
-                        return await interaction.editReply({ embeds: [clientPermissionsUnavailable_ES(specialPermissionTest.requiredPermissions)] });
+                        return await interaction.reply({ embeds: [clientPermissionsUnavailable_ES(specialPermissionTest.requiredPermissions)] });
                 }
 
                 // Now that that's out of the way... Let's actually run the command if we're able to
@@ -45,7 +45,7 @@ module.exports = {
             } catch (err) {
                 console.error(`Failed to execute slash command \"${command.data.name}\"`, err);
                 
-                return await interaction.editReply(RandomChoice(errorMsg.COMMANDFAILEDMISERABLY)
+                return await interaction.reply(RandomChoice(errorMsg.COMMANDFAILEDMISERABLY)
                     .replace("$CMDNAME", command.name)
                     .replace("$CREATORTAG", userMention(CREATOR_ID))
                 );

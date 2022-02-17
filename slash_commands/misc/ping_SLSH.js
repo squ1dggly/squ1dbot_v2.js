@@ -16,7 +16,7 @@ module.exports = {
             .setTitle(`**Pong!** Bot: ${formatNumberString(botMS)}ms`)
             .setColor((botMS > 420) ? embedColor.ERROR : embedColor.MAIN);
 
-        return await interaction.editReply({ embeds: [embed] });
+        return await interaction.reply({ embeds: [embed] });
     }
 }
 

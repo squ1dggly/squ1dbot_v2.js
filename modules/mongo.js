@@ -66,8 +66,8 @@ module.exports = {
     retrieveUserWarns: async (guild_id, user_id) => {
         let guild_data = await guildModel.findById(guild_id);
         let warns = [];
-
-        guild_data.warns.forEach(warn => { if (warn.userId == user_id) warns.push(warn) });
+        
+        guild_data.warns.forEach(warn => { if (warn.userID == user_id) warns.push(warn) });
         return warns;
     }
 }

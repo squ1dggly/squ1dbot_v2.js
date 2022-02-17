@@ -44,31 +44,40 @@ async function WarnMember(interaction) {
 
     // Publish the user warn to our mongo database
     return await publishUserWarn(interaction.guild.id, guildMember.id, reason, interaction.createdTimestamp).then(async warn => {
-        return await interaction.editReply({ content: `Warn published for ${guildMember.user}\n**Reason:** \"${warn.data.reason}\"` });
+        return await interaction.reply({ content: `Warn published for ${guildMember.user}\n**Reason:** \"${warn.data.reason}\"` });
     }).catch(async err => {
-        return await interaction.editReply({ content: `Failed to submit warn to user ${guildMember.user.tag}` });
+        console.error(err);
+
+        return await interaction.reply({ content: `Failed to submit warn to user ${guildMember.user.tag}` });
     });
 }
 
 async function RemoveMemberWarn(interaction) {
-    let warnID = interaction.options.getUser("warn-id");
+    let warnID = interaction.options.getString("warn-id");
 
     // Checks if the gived ID was a valid warn id in the current guild
-    if (await !validateUserWarn(message.guild.id, warnID)) return await interaction.editReply({
-        content: "The warn ID you provided is invalid."
+    let vaildated = await validateUserWarn(interaction.guild.id, warnID);
+    if (!vaildated) return await interaction.reply({
+        content: "The warn ID you provided is invalid.",
+        ephemeral: true
     });
 
     // If all checks passed then remove the warn from our mongo database
     return await removeUserWarn(interaction.guild.id, warnID).then(async removedWarn => {
         return await interaction.guild.members.fetch(removedWarn.userID).then(async guildMember => {
             // If the member was found in the guild at the time of this command show their username
-            return await interaction.editReply({ content: `Removed warn from user **${guildMember.user.tag}**` });
+            return await interaction.reply({ content: `Removed warn from user **${guildMember.user.tag}**` });
         }).catch(async err => {
             // If the member wasn't found in the guild just let the user know that the warn was removed
-            return await interaction.editReply({ content: "Warn removed." });
+            return await interaction.reply({ content: "Warn removed." });
         });
     }).catch(async err => {
+        console.error(err);
+
         // If removing the warn was unsuccessful
-        return await interaction.editReply({ content: `Failed to remove warn \`${warnID}\`.` });
+        return await interaction.reply({
+            content: `Failed to remove warn \`${warnID}\`.`,
+            ephemeral: true
+        });
     });
 }

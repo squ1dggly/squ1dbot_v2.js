@@ -34,7 +34,7 @@ module.exports = {
         let reply_after = "Purged \`$AMT\` $MSG.$INCLUDES$FROM";
 
         // Reply to the user saying we've started the purge
-        interaction.editReply({
+        interaction.reply({
             content: reply_before
                 .replace("$AMT", amount)
                 .replace("$MSG", amount > 1 ? "messages" : "message")
@@ -44,7 +44,7 @@ module.exports = {
 
             // Once successfully purged show how many messages were actually deleted
             .then(async message => FetchAndDeleteMessagesInChannel(message.channel, message.id, amount, includes, fromMember).then(purged =>
-                interaction.editReply({
+                interaction.reply({
                     content: reply_after
                         .replace("$AMT", amount)
                         .replace("$MSG", amount > 1 ? "messages" : "message")

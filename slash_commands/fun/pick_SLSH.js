@@ -31,7 +31,7 @@ module.exports = {
                 .setDescription((RandomChance(2)) ? "Tip: seperate your options using a comma (,) for multiple choices." : null)
                 .setColor(embedColor.ERROR);
 
-            return await interaction.editReply({ embeds: [embed] });
+            return await interaction.reply({ embeds: [embed] });
         }
 
         // If the user didn't fail at giving us more than 1 option; pick something random and tell the user what our choice was
@@ -39,6 +39,6 @@ module.exports = {
         let response = RandomChoice(responses);
 
         embed.setTitle(response).setDescription(choice).setColor(embedColor.MAIN);
-        return await interaction.editReply({ embeds: [embed], ephemeral: ephemeral });
+        return await interaction.reply({ embeds: [embed], ephemeral: ephemeral });
     }
 }
