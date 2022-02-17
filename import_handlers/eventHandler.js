@@ -9,12 +9,12 @@ module.exports = {
     init: (client) => {
         let event_ready = importEventFunctions('../events/ready');
 
-        let event_guildCreate = importEventFunctions('../events/guildCreate');
-        let event_guildMemberAdd = importEventFunctions('../events/guildMemberAdd');
+        // let event_guildCreate = importEventFunctions('../events/guildCreate');
+        // let event_guildMemberAdd = importEventFunctions('../events/guildMemberAdd');
 
         let event_messageCreate = importEventFunctions('../events/messageCreate');
         let event_messageUpdate = importEventFunctions('../events/messageUpdate');
-        let event_messageDelete = importEventFunctions('../events/messageDelete');
+        // let event_messageDelete = importEventFunctions('../events/messageDelete');
 
         let event_interactionCreate = importEventFunctions('../events/interactionCreate');
 
@@ -25,18 +25,18 @@ module.exports = {
         });
 
         // Guild Create
-        client.on("guildCreate", async (guild) => {
+        /* client.on("guildCreate", async (guild) => {
             getGuildData(client, guild).then(guildData => {
                 event_guildCreate.forEach(func => executeEvent(func, client, guild, guildData));
             });
-        });
+        }); */
 
         // Guild /ember Add
-        client.on("guildMemberAdd", async (guild_member) => {
+        /* client.on("guildMemberAdd", async (guild_member) => {
             getGuildData(client, guild_member.guild).then(guildData => {
                 event_guildMemberAdd.forEach(func => executeEvent(func, client, guild_member, guildData));
             });
-        });
+        }); */
 
         // Message Create
         client.on("messageCreate", async (message) => {
@@ -55,11 +55,11 @@ module.exports = {
         });
 
         // Message Delete
-        client.on("messageDelete", async (message) => {
+        /* client.on("messageDelete", async (message) => {
             getGuildData(client, message.guild).then(guildData => {
                 event_messageDelete.forEach(func => executeEvent(func, client, message, guildData));
             });
-        });
+        }); */
 
         // Interaction Create
         client.on("interactionCreate", async (interaction) => {
