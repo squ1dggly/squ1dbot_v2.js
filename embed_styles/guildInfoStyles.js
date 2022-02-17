@@ -57,6 +57,8 @@ module.exports = {
     },
 
     memberInfo_ES: (guild, member, keyPermissions, roles, warns) => {
+        warns = FormatMemberWarns(warns, limit);
+
         let avatar_128 = member.user.displayAvatarURL({ dynamic: true, size: 128 });
         let avatar_256 = member.user.displayAvatarURL({ dynamic: true, size: 256 });
         let avatar_512 = member.user.displayAvatarURL({ dynamic: true, size: 512 });
