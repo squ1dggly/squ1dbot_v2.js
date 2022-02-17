@@ -31,7 +31,7 @@ module.exports = {
 
         // Fetch the guild member's warns in the current server
         return await retrieveUserWarns(message.guild.id, guildMember.id).then(async fetchedWarns => {
-            let embed = memberWarns_ES(guildMember, fetchedWarns);
+            let embed = memberWarns_ES(guildMember, fetchedWarns, 10);
 
             return await message.channel.send({ embeds: [embed] });
         });
