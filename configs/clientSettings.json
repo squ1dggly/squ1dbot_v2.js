@@ -5,7 +5,7 @@
     "CLIENT_ACTIVITY": {
         "STATUS": "idle",
         "TYPE": "LISTENING",
-        "INFO": "to /invite || s!invite"
+        "INFO": "/invite || s!invite"
     },
 
     "embedColor": {
