@@ -1,0 +1,51 @@
+{
+    "CREATOR_ID": "227851838572068875",
+    "INVITE_LINK": "https://discord.com/api/oauth2/authorize?client_id=895099253360300072&permissions=1426901560535&scope=applications.commands%20bot",
+
+    "CLIENT_ACTIVITY": {
+        "STATUS": "dnd",
+        "TYPE": "LISTENING",
+        "INFO": "/invite || s!invite"
+    },
+
+    "embedColor": {
+        "MAIN": "65B085",
+        "APPROVED": "FFBD5B",
+        "ERROR": "E75F5F"
+    },
+
+    "timeouts": {
+        "interaction": { "SELECTMENU": 30000 },
+        "cooldown": { "COMMAND": 1000, "SPAM": 3000 },
+        "warningMessage": { "ALERT": 4000, "ERROR": 2000 }
+    },
+
+    "errorMsg": {
+        "NOSPAMMING": [
+            "Oi, $TAGEUSER! Could you keep it down? I'm trying to sleep on the job.",
+            "$TAGUSER do you mind shutting the hell up?",
+            "Commit speakn't, $TAGUSER."
+        ],
+
+        "NODUPLICATEMESSAGES": [
+            "We got it the first time, $TAGUSER. Don't send the same message over and over again.",
+            "Ayo, $TAGUSER. I'm gonna 360 no scope your face if you don't shut up.",
+            "$TAGUSER, refrain from sending duplicate messages."
+        ],
+
+        "NOTGUILDADMIN": [
+            "Look who showed up without admin to an admin fight. Come back when you're better prepared.",
+            "With no power, comes no responsibility. You must be a server admin to use this command.",
+            "Silly wabbit! Admin commands are for people who can actually be trusted!"
+        ],
+
+        "COMMANDFAILEDMISERABLY": [
+            "Oh no! Failed to run command: `$CMDNAME`. $CREATORTAG has failed at life yet again.",
+            "Command failed: `$CMDNAME`; $CREATORTAG will certainly be looking into fixing that sometime this century.",
+
+            "Uh-oh! I dropped my cheese of with sandwich! Hopefully $CREATORTAG will fix that pothole on `$CMDNAME` drive.",
+            "Uh-oh! I dropped my sandwich with cheese! Hopefully $CREATORTAG will fix that pothole on `$CMDNAME` street.",
+            "Uh-oh! I dropped my bread con queso! Hopefully $CREATORTAG will fix that pothole on `$CMDNAME` road."
+        ]
+    }
+}
