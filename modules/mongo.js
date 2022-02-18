@@ -9,7 +9,7 @@ const URI = process.env.MONGO_URI;
 const guildModel = require('../models/guildModel');
 
 // Connect to Mongo
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology:true })
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("successfully connected to mongo"))
     .catch((err) => console.error("Failed to connect to Mongo:", err));
 
@@ -29,7 +29,10 @@ module.exports = {
             guildName: guild.name,
             guildId: guild_id,
 
-            guildPrefixes: ["s!", userMention(client.user.id), memberNicknameMention(client.user.id)]
+            guildPrefixes: ["s!",
+                `${userMention(client.user.id)} `,
+                `${memberNicknameMention(client.user.id)} `
+            ]
         });
 
         return await new_guild.save();
@@ -66,7 +69,7 @@ module.exports = {
     retrieveUserWarns: async (guild_id, user_id) => {
         let guild_data = await guildModel.findById(guild_id);
         let warns = [];
-        
+
         guild_data.warns.forEach(warn => { if (warn.userID == user_id) warns.push(warn) });
         return warns;
     }

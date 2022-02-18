@@ -1,7 +1,7 @@
 // A group of commands related to guild member warns
 
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { publishUserWarn, removeUserWarn, validateUserWarn } = require('../../modules/mongo');
+const { publishUserWarn, removeUserWarn, validateUserWarn, retrieveUserWarns } = require('../../modules/mongo');
 
 module.exports = {
     requireGuildMemberHaveAdmin: true,
@@ -22,6 +22,13 @@ module.exports = {
             .setDescription("Remove a warn from a used-to-be naughty member of the server.")
             .addStringOption(option => option.setName("warn-id")
                 .setDescription("The ID of the warn you want to remove.")
+                .setRequired(true)))
+
+        // Fetch the guild member's warns in the current server
+        .addSubcommand(subcommand => subcommand.setName("view")
+            .setDescription("Fetch the guild member's warns in the current server.")
+            .addUserOption(option => option.setName("member")
+                .setDescription("The member that you want to view information on.")
                 .setRequired(true))),
 
     execute: async (client, interaction) => {
@@ -33,6 +40,10 @@ module.exports = {
             // Remove a warn from said used-to-be naughty member of the server
             case "remove":
                 return await RemoveMemberWarn(interaction);
+
+            // Fetch the guild member's warns in the current server
+            case "view":
+                return await GetMemberWarnList(interaction);
         }
     }
 }
@@ -43,7 +54,7 @@ async function WarnMember(interaction) {
     let reason = interaction.options.getString("reason") || "Not provided.";
 
     // Publish the user warn to our mongo database
-    return await publishUserWarn(interaction.guild.id, guildMember.id, reason, interaction.createdTimestamp).then(async warn => {
+    return await publishUserWarn(interaction.guild.id, guildMember.id, reason, interaction.createdAt).then(async warn => {
         return await interaction.reply({ content: `Warn published for ${guildMember.user}\n**Reason:** \"${warn.data.reason}\"` });
     }).catch(async err => {
         console.error(err);
@@ -79,5 +90,15 @@ async function RemoveMemberWarn(interaction) {
             content: `Failed to remove warn \`${warnID}\`.`,
             ephemeral: true
         });
+    });
+}
+
+async function GetMemberWarnList(interaction) {
+    let guildMember = interaction.options.getUser("member");
+
+    return await retrieveUserWarns(interaction.guild.id, guildMember.id).then(async fetchedWarns => {
+        let embed = memberWarns_ES(guildMember, fetchedWarns, 10);
+
+        return await interaction.reply({ embeds: [embed] });
     });
 }

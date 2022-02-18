@@ -40,8 +40,6 @@ console.log("connecting to discord...");
 client.login(process.env.TOKEN).then(async () => {
     // await DeleteSlashCommands();
     // await PushSlashCommands();
-
-    console.log("successfully connected to discord");
 });
 
 // >> Custom Functions

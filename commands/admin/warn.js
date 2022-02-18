@@ -41,7 +41,7 @@ module.exports = {
         if (reason === "") reason = "Not provided.";
 
         // Publish the user warn to our mongo database
-        return await publishUserWarn(message.guild.id, guildMember.id, reason, message.createdTimestamp).then(async warn => {
+        return await publishUserWarn(message.guild.id, guildMember.id, reason, message.createdAt).then(async warn => {
             return await message.channel.send({ content: `Warn published for ${guildMember.user}\n**Reason:** \"${warn.data.reason}\"` });
         }).catch(async err => {
             console.error(err);

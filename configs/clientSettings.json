@@ -3,9 +3,9 @@
     "INVITE_LINK": "https://discord.com/api/oauth2/authorize?client_id=895099253360300072&permissions=1426901560535&scope=applications.commands%20bot",
 
     "CLIENT_ACTIVITY": {
-        "STATUS": "dnd",
+        "STATUS": "idle",
         "TYPE": "LISTENING",
-        "INFO": "/invite || s!invite"
+        "INFO": "to /invite || s!invite"
     },
 
     "embedColor": {
@@ -22,7 +22,7 @@
 
     "errorMsg": {
         "NOSPAMMING": [
-            "Oi, $TAGEUSER! Could you keep it down? I'm trying to sleep on the job.",
+            "Oi, $TAGUSER! Could you keep it down? I'm trying to sleep on the job.",
             "$TAGUSER do you mind shutting the hell up?",
             "Commit speakn't, $TAGUSER."
         ],

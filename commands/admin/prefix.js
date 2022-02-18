@@ -18,8 +18,8 @@ module.exports = {
             let currentPrefixes = commandData.guildData.guildPrefixes;
             let newPrefixes = [
                 commandData.args[0].toLowerCase(),
-                userMention(client.user.id),
-                memberNicknameMention(client.user.id)
+                `${userMention(client.user.id)} `,
+                `${memberNicknameMention(client.user.id)} `
             ];
 
             mongo.updateGuild(message.guild.id, { guildPrefixes: newPrefixes }).then(async newGuildData => {

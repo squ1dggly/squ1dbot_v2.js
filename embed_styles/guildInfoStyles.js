@@ -26,8 +26,33 @@ function FormatMemberWarns(warns, limit) {
     }
 }
 
+function FindImportantPermissions(arr) {
+    let importantPermissions = [
+        "ADMINISTRATOR",
+        "MANAGE_MESSAGES",
+        "MANAGE_CHANNELS",
+        "MANAGE_GUILD",
+        "MANAGE_ROLES",
+        "BAN_MEMBERS",
+        "KICK_MEMBERS",
+        "MENTION_EVERYONE"
+    ];
+
+    let perms = [];
+
+    arr.forEach(perm => {
+        importantPermissions.forEach(importantPerm => {
+            if (perm === importantPerm) perms.push(`\`${importantPerm}\``);
+        });
+    });
+
+    return (perms.length > 0) ? { length: perms.length, list: perms, joinedList: perms.join(", ") } : "None";
+}
+
 module.exports = {
-    roleInfo_ES: (role, keyPermissions) => {
+    roleInfo_ES: (role, rolePermissions) => {
+        rolePermissions = FindImportantPermissions(rolePermissions);
+        
         let created_timestamp = time(role.createdAt, "R");
 
         let position = `${role.position}`;
@@ -49,7 +74,7 @@ module.exports = {
 
             .addField("Color", color, true)
 
-            .addField(`Key Permissions (${(keyPermissions.list) ? keyPermissions.list.length : "0"})`, keyPermissions.joinedList || "None")
+            .addField(`Key Permissions (${(rolePermissions.list) ? rolePermissions.list.length : "0"})`, rolePermissions.joinedList || "None")
 
             .setColor(color.replace("#", ""));
 
@@ -154,5 +179,6 @@ module.exports = {
         return embed;
     },
 
-    formatMemberWarns: FormatMemberWarns
+    formatMemberWarns: FormatMemberWarns,
+    findImportantPermissions: FindImportantPermissions
 }

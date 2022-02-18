@@ -1,34 +1,12 @@
-// Get information about a role in the server.
+// Get information about a role in the current guild.
 
 const { roleInfo_ES } = require('../../embed_styles/guildInfoStyles');
-
-const importantPermissions = [
-    "ADMINISTRATOR",
-    "MANAGE_MESSAGES",
-    "MANAGE_CHANNELS",
-    "MANAGE_GUILD",
-    "MANAGE_ROLES",
-    "BAN_MEMBERS",
-    "KICK_MEMBERS",
-    "MENTION_EVERYONE"
-];
-
-function findImportantPermissions(arr=[]) {
-    const perms = [];
-
-    arr.forEach(perm => {
-        importantPermissions.forEach(importantPerm => {
-            if (perm === importantPerm) perms.push(`\`${importantPerm}\``);
-        });
-    });
-
-    return (perms.length > 0) ? { length: perms.length, list: perms, joinedList: perms.join(", ") } : "None";
-}
+const { GetRoleFromNameOrID } = require('../../modules/guildTools');
 
 const cmdName = "inforole";
 const aliases = ["roleinfo"];
 
-const description = "Get information about a role in the server.";
+const description = "Get information about a role in the current guild.";
 
 module.exports = {
     name: cmdName,
@@ -36,26 +14,23 @@ module.exports = {
     description: description,
 
     execute: async (client, message, commandData) => {
-        let mentionedRole = message.mentions.roles.first();
-        let role;
+        let role = message.mentions.roles.first() || null;
 
-        let foundBy = "";
+        // If the (role) argument wasn't a mention or it was a name/roleID try to find the role in the guild
+        // and if the role doesn't exist just show the highest role of the current user
+        if (!role && commandData.args[0]) {
+            fetchedRole = await GetRoleFromNameOrID(message.guild, commandData.args[0].toLowerCase());
 
-        if (mentionedRole) {
-            role = mentionedRole;
-            foundBy = "mention";
-        } else if (!isNaN(commandData.args[0]))
-            try { role = await message.guild.roles.fetch(commandData.args[0]); foundBy = "id"; }
-            catch { return message.channel.send("I was unable to find a role matching the ID you've given.") }
-        else {
+            if (fetchedRole) role = fetchedRole;
+            else return await message.reply({
+                content: "I was unable to find the specified role. Better luck next year."
+            });
+        } else if (!role && !commandData.args[0])
             role = message.member.roles.highest;
-            foundBy = "self";
-        }
 
-        let role_permissions;
-        try { role_permissions = findImportantPermissions(role.permissions.toArray()); }
-        catch { return message.channel.send("I was unable to find any such role. Try again next year."); }
+        // Attempt to create the role information embed
+        let embed = roleInfo_ES(role, role.permissions.toArray());
 
-        message.channel.send({ embeds: [roleInfo_ES(role, role_permissions, foundBy)] });
+        return await message.channel.send({ embeds: [embed] });
     }
 }
