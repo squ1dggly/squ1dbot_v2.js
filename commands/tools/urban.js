@@ -40,7 +40,7 @@ module.exports = {
         let queryLimit = splitArgs[1] || 1;
 
         try {
-            return await Search(term).then(query => {
+            return await Search(term).then(async query => {
                 if (query.length === 0) return await message.reply({
                     content: `Search results for \`${term}\` turned up empty. Just like your father did.${commandTip}`
                 });
