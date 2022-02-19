@@ -1,12 +1,11 @@
 // Asks the urban dictionary for the definition to a slang-like word.
 
 const fetch = require('node-fetch');
-
-const { MessageEmbed } = require('discord.js');
-const { embedColor } = require('../../configs/clientSettings.json');
+const { RandomChoice, RandomChance } = require('../../modules/jsTools');
+const { urban_CS } = require('../../embed_styles/commandStyles');
 
 const cmdName = "urban";
-const aliases = [];
+const aliases = ["defineurban", "searchurban"];
 
 const description = "Ask the urban dictionary for the definition to a slang-like word.";
 
@@ -16,50 +15,55 @@ module.exports = {
     description: description,
 
     execute: async (client, message, commandData) => {
-        if (!commandData.args[0]) return message.channel.send("You imbecile. What am I supposed to search?");
+        let commandTip_examples = [
+            `${commandData.guildData.prefixes[0]} urban barack obama, 2`
+            `${commandData.guildData.prefixes[0]} urban pizza, 3`
+            `${commandData.guildData.prefixes[0]} urban 420 blaze it, 4`
+            `${commandData.guildData.prefixes[0]} urban rule34, 5`
+            `${commandData.guildData.prefixes[0]} urban bite of 87, 6`
+            `${commandData.guildData.prefixes[0]} urban ratio, 7`
+            `${commandData.guildData.prefixes[0]} urban mald, 8`
+            `${commandData.guildData.prefixes[0]} urban cope, 9`
+            `${commandData.guildData.prefixes[0]} urban cheeseburger, 10`
+        ]
 
-        let term = commandData.args[0];
-        let limit = (!isNaN(commandData.args[1])) ? parseInt(commandData.args[1]) : 1;
+        let commandTip = RandomChance(4) ? "\n\n$TIP" : ""
+            .replace(`Tip: You can view more than 1 definition by adding a comma \`,\` and then the number of definitions you want`
+                + `\n ex: \`${RandomChoice(commandTip_examples)}\``);
+
+        if (!commandData.args[0]) return await message.reply({
+            content: `You imbecile. What am I even supposed to search?${commandTip}`
+        });
+
+        let splitArgs = commandData.splitContent(",");
+        let term = splitArgs[0].toLowerCase();
+        let queryLimit = splitArgs[1] || 1;
 
         try {
-            let query = await search(term.toLowerCase());
-            let def_embed = createDefinitionEmbed(client, message, term, query, limit);
+            return await Search(term).then(query => {
+                if (query.length === 0) return await message.reply({
+                    content: `Search results for \`${term}\` turned up empty. Just like your father did.${commandTip}`
+                });
 
-            if (!def_embed)
-                return message.channel.send(`Not even I could figure out what \"${term}\" means!`);
-            else
-                message.channel.send({ embeds: [def_embed] });
+                query = { searchedTerm: term, definitions: query };
+                let embed = urban_CS(query, queryLimit);
+
+                return await message.channel.send({ embeds: [embed] });
+            });
         } catch (err) {
             console.error(err);
-            message.channel.send("Failed to conduct search. One of our volunteers called in sick today. Please try again later.");
+
+            return await message.reply({
+                content: `Failed to conduct search. Half our team didn't turn in today.${commandTip}`
+            });
         }
     }
 }
 
-async function search(term) {
+// >> Custom Functions
+async function Search(term) {
     let query = new URLSearchParams({ term });
     let response = await fetch(`https://api.urbandictionary.com/v0/define?${query}`).then(r => r.json());
 
     return (response.list && response.list.length > 0) ? response.list : null;
-}
-
-function createDefinitionEmbed(client, message, searched, query, limit = 1) {
-    if (query.length == 0) return null;
-    query = query.slice(0, limit);
-
-    let embed = new MessageEmbed()
-        .setTitle(`*${searched}* in Urban`)
-        .setTimestamp(message.createdTimestamp)
-        .setColor(embedColor.MAIN);
-
-    let index = 0;
-    query.forEach(def => {
-        embed.addField(`Definition ${index + 1}/${query.length}`, def.definition);
-        embed.addField("Example:", `\`\`\`${def.example}\`\`\``);
-        embed.addField("\u200b", `Author: **[${def.author}](${def.permalink})**\n👍 ${def.thumbs_up} || 👎`);
-
-        index++;
-    });
-
-    return embed;
 }
