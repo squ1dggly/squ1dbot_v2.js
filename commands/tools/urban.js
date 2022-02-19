@@ -16,20 +16,19 @@ module.exports = {
 
     execute: async (client, message, commandData) => {
         let commandTip_examples = [
-            `${commandData.guildData.prefixes[0]} urban barack obama, 2`
-            `${commandData.guildData.prefixes[0]} urban pizza, 3`
-            `${commandData.guildData.prefixes[0]} urban 420 blaze it, 4`
-            `${commandData.guildData.prefixes[0]} urban rule34, 5`
-            `${commandData.guildData.prefixes[0]} urban bite of 87, 6`
-            `${commandData.guildData.prefixes[0]} urban ratio, 7`
-            `${commandData.guildData.prefixes[0]} urban mald, 8`
-            `${commandData.guildData.prefixes[0]} urban cope, 9`
-            `${commandData.guildData.prefixes[0]} urban cheeseburger, 10`
+            `${commandData.guildData.guildPrefixes[0]}urban barack obama, 2`,
+            `${commandData.guildData.guildPrefixes[0]}urban pizza, 3`,
+            `${commandData.guildData.guildPrefixes[0]}urban 420 blaze it, 4`,
+            `${commandData.guildData.guildPrefixes[0]}urban rule34, 5`,
+            `${commandData.guildData.guildPrefixes[0]}urban the bite of 87, 6`,
+            `${commandData.guildData.guildPrefixes[0]}urban ratio, 7`,
+            `${commandData.guildData.guildPrefixes[0]}urban mald, 8`,
+            `${commandData.guildData.guildPrefixes[0]}urban cope, 9`,
+            `${commandData.guildData.guildPrefixes[0]}urban cheeseburger, 10`
         ]
 
-        let commandTip = RandomChance(4) ? "\n\n$TIP" : ""
-            .replace(`Tip: You can view more than 1 definition by adding a comma \`,\` and then the number of definitions you want`
-                + `\n ex: \`${RandomChoice(commandTip_examples)}\``);
+        let commandTip = (RandomChance(3) ? "\n\n$TIP" : "")
+            .replace("$TIP", `Tip: You can view more than 1 definition by adding a comma (,) and then the number of definitions you want.\nExample: \`${RandomChoice(commandTip_examples)}\``);
 
         if (!commandData.args[0]) return await message.reply({
             content: `You imbecile. What am I even supposed to search?${commandTip}`
