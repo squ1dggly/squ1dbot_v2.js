@@ -53,26 +53,25 @@ module.exports = {
         let reply_after = "Purged \`$AMT\` $MSG.$INCLUDES$FROM";
 
         // Reply to the user saying we've started the purge
-        message.channel.send({
+        return await message.channel.send({
             content: reply_before
                 .replace("$AMT", amount)
                 .replace("$MSG", amount > 1 ? "messages" : "message")
                 .replace("$INCLUDES", includes ? `\nFiltering by phrase: \`${includes}\`` : "")
                 .replace("$FROM", fromMember ? `\nFiltering by member: \`${fromMember.user.username}\`` : "")
-        })
+        }).then(async msg => {
+            await message.delete().catch(err => console.err(err));
 
             // Once successfully purged show how many messages were actually deleted
-            .then(async msg => FetchAndDeleteMessagesInChannel(message.channel, msg.id, amount + 1, includes, fromMember).then(purged => {
-                try { await message.delete(); } catch { }
-
-                msg.edit({
+            await FetchAndDeleteMessagesInChannel(message.channel, msg.id, amount, includes, fromMember).then(async purged => {
+                await msg.edit({
                     content: reply_after
-                        .replace("$AMT", amount)
-                        .replace("$MSG", amount > 1 ? "messages" : "message")
+                        .replace("$AMT", purged)
+                        .replace("$MSG", purged > 1 ? "messages" : "message")
                         .replace("$INCLUDES", includes ? `\nFiltered by phrase: \`${includes}\`` : "")
                         .replace("$FROM", fromMember ? `\nFiltered by member: \`${fromMember.user.username}\`` : "")
-                }).then(() => setTimeout(() => msg.delete(), timeouts.warningMessage.ALERT))
-            ));
+                }).then(() => setTimeout(() => msg.delete(), timeouts.warningMessage.ALERT));
+            });
+        });
     }
-}
 }
