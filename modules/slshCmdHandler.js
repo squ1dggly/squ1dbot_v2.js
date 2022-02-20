@@ -1,7 +1,7 @@
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
-async function PushSlashCommands(guild = null) {
+async function PushSlashCommands(client, guild = null) {
     try {
         let rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
         let commands = [];
@@ -26,7 +26,7 @@ async function PushSlashCommands(guild = null) {
     }
 }
 
-async function DeleteSlashCommands(guild = null) {
+async function DeleteSlashCommands(client, guild = null) {
     try {
         if (guild.id)
             client.guilds.cache.get(guild.id).commands.fetch()

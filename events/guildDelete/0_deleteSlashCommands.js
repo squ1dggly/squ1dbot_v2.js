@@ -7,6 +7,6 @@ module.exports = {
     event: "guildDelete",
 
     execute: async (client, guild) => {
-        await DeleteSlashCommands(guild);
+        await DeleteSlashCommands(client, guild);
     }
 }

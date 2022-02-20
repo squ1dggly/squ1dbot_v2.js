@@ -7,6 +7,6 @@ module.exports = {
     event: "guildCreate",
 
     execute: async (client, guild) => {
-        await PushSlashCommands(guild);
+        await PushSlashCommands(client, guild);
     }
 }

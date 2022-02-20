@@ -5,7 +5,8 @@
   "main": "app.js",
 
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pushSlash": "node -e \"require('./modules/slshCmdHandler').PushSlashCommands(require('./app'))\"",
+    "removSlash": "node -e \"require('./modules/slshCmdHandler').DeleteSlashCommands(require('./app'))\""
   },
 
   "author": "squ1d",

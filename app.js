@@ -39,6 +39,8 @@ importHandler_dir.forEach(fn => {
 // Connect to our client using our token:
 console.log("connecting to discord...");
 client.login(process.env.TOKEN).then(async () => {
-    // await PushSlashCommands();
-    // await DeleteSlashCommands();
+    // await PushSlashCommands(client);
+    // await DeleteSlashCommands(client);
 });
+
+module.exports = client;
