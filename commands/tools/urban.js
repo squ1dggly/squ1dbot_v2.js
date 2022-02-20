@@ -15,6 +15,7 @@ module.exports = {
     description: description,
 
     execute: async (client, message, commandData) => {
+        // Randomized Responses
         let commandTip_examples = [
             `${commandData.guildData.guildPrefixes[0]}urban barack obama, 2`,
             `${commandData.guildData.guildPrefixes[0]}urban pizza, 3`,
@@ -26,9 +27,15 @@ module.exports = {
             `${commandData.guildData.guildPrefixes[0]}urban cope, 9`,
             `${commandData.guildData.guildPrefixes[0]}urban cheeseburger, 10`
         ]
-
         let commandTip = (RandomChance(3) ? "\n\n$TIP" : "")
             .replace("$TIP", `Tip: You can view more than 1 definition by adding a comma (,) and then the number of definitions you want.\nExample: \`${RandomChoice(commandTip_examples)}\``);
+
+        let emptyResultsTaunt = [
+            "",
+            " Just like my parents did.",
+            " Just like my bank account. Smh",
+            " Just like my remaining brain cells after talking to you."
+        ]
 
         if (!commandData.args[0]) return await message.reply({
             content: `You imbecile. What am I even supposed to search?${commandTip}`
@@ -40,8 +47,8 @@ module.exports = {
 
         try {
             return await Search(term).then(async query => {
-                if (query.length === 0) return await message.reply({
-                    content: `Search results for \`${term}\` turned up empty. Just like your father did.${commandTip}`
+                if (!query) return await message.reply({
+                    content: `Search results for \`${term}\` turned up empty.${RandomChoice(emptyResultsTaunt)}${commandTip}`
                 });
 
                 query = { searchedTerm: term, definitions: query };
