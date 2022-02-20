@@ -28,10 +28,6 @@ module.exports = {
         let queryLimit = interaction.options.getNumber("limit") | 1;
         let ephemeral = interaction.options.getBoolean("ephemeral") || false;
 
-        if (!commandData.args[0]) return await interaction.reply({
-            content: "You imbecile. What am I even supposed to search?"
-        });
-
         try {
             return await Search(term).then(async query => {
                 if (!query) return await interaction.reply({
