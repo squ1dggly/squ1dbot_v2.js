@@ -44,7 +44,7 @@ module.exports = {
             let fetchedInteractionID = (await interaction.fetchReply()).id;
 
             // Once successfully purged show how many messages were actually deleted
-            await FetchAndDeleteMessagesInChannel(interaction.channel, fetchedInteractionID, amount, includes, fromMember).then(purged =>
+            await FetchAndDeleteMessagesInChannel(interaction.channel, fetchedInteractionID, amount, includes, fromMember).then(async purged =>
                 await interaction.editReply({
                     content: reply_after
                         .replace("$AMT", purged)
