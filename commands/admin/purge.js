@@ -70,7 +70,7 @@ module.exports = {
                         .replace("$MSG", purged > 1 ? "messages" : "message")
                         .replace("$INCLUDES", includes ? `\nFiltered by phrase: \`${includes}\`` : "")
                         .replace("$FROM", fromMember ? `\nFiltered by member: \`${fromMember.user.username}\`` : "")
-                }).then(() => setTimeout(() => msg.delete(), timeouts.warningMessage.ALERT));
+                }).then(() => setTimeout(async () => await msg.delete(), timeouts.warningMessage.ALERT));
             });
         });
     }

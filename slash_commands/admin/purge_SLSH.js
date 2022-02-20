@@ -51,7 +51,7 @@ module.exports = {
                         .replace("$MSG", purged > 1 ? "messages" : "message")
                         .replace("$INCLUDES", includes ? `\nFiltering by phrase: \`${includes}\`` : "")
                         .replace("$FROM", fromMember ? `\Filtering by member: \`${fromMember.username}\`` : "")
-                }).then(() => setTimeout(() => message.delete(), timeouts.warningMessage.ALERT))
+                }).then(() => setTimeout(async () => await interaction.deleteReply(), timeouts.warningMessage.ALERT))
             );
         });
     }
