@@ -33,7 +33,7 @@ module.exports = {
             let tip3 = `*Format: \`${guildData.prefixes[0]}\`purge 5 --i hello`;
 
             return await message.reply({
-                content: `You've failed to tell me how many messages you wanted to purge.${RandomChance(4) ? `\n\n${tip1}\n${tip2}\n${tip3}` : ""}`
+                content: `You've failed to tell me how many messages you wanted to purge.${RandomChance(3) ? `\n\n${tip1}\n${tip2}\n${tip3}` : ""}`
             });
         }
 
@@ -62,7 +62,9 @@ module.exports = {
         })
 
             // Once successfully purged show how many messages were actually deleted
-            .then(async msg => FetchAndDeleteMessagesInChannel(message.channel, msg.id, amount + 1, includes, fromMember).then(purged =>
+            .then(async msg => FetchAndDeleteMessagesInChannel(message.channel, msg.id, amount + 1, includes, fromMember).then(purged => {
+                try { await message.delete(); } catch { }
+
                 msg.edit({
                     content: reply_after
                         .replace("$AMT", amount)
@@ -72,4 +74,5 @@ module.exports = {
                 }).then(() => setTimeout(() => msg.delete(), timeouts.warningMessage.ALERT))
             ));
     }
+}
 }
