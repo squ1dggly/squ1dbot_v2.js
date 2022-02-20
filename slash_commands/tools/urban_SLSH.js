@@ -25,7 +25,7 @@ module.exports = {
 
     execute: async (client, interaction) => {
         let term = interaction.options.getString("keywords");
-        let queryLimit = interaction.options.getNumber("keywords") | 1;
+        let queryLimit = interaction.options.getNumber("limit") | 1;
         let ephemeral = interaction.options.getBoolean("ephemeral") || false;
 
         if (!commandData.args[0]) return await interaction.reply({
