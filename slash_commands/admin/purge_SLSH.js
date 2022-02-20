@@ -34,23 +34,25 @@ module.exports = {
         let reply_after = "Purged \`$AMT\` $MSG.$INCLUDES$FROM";
 
         // Reply to the user saying we've started the purge
-        interaction.reply({
+        return await interaction.reply({
             content: reply_before
                 .replace("$AMT", amount)
                 .replace("$MSG", amount > 1 ? "messages" : "message")
                 .replace("$INCLUDES", includes ? `\nFiltering by phrase: \`${includes}\`` : "")
                 .replace("$FROM", fromMember ? `\nFiltering by member: \`${fromMember.username}\`` : "")
-        })
+        }).then(async message => {
+            let fetchedInteractionID = (await interaction.fetchReply()).id;
 
             // Once successfully purged show how many messages were actually deleted
-            .then(async message => FetchAndDeleteMessagesInChannel(message.channel, message.id, amount, includes, fromMember).then(purged =>
-                interaction.reply({
+            await FetchAndDeleteMessagesInChannel(interaction.channel, fetchedInteractionID, amount, includes, fromMember).then(purged =>
+                await interaction.editReply({
                     content: reply_after
-                        .replace("$AMT", amount)
-                        .replace("$MSG", amount > 1 ? "messages" : "message")
+                        .replace("$AMT", purged)
+                        .replace("$MSG", purged > 1 ? "messages" : "message")
                         .replace("$INCLUDES", includes ? `\nFiltering by phrase: \`${includes}\`` : "")
                         .replace("$FROM", fromMember ? `\Filtering by member: \`${fromMember.username}\`` : "")
                 }).then(() => setTimeout(() => message.delete(), timeouts.warningMessage.ALERT))
-            ));
+            );
+        });
     }
 }
