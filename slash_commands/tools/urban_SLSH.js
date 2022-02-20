@@ -37,7 +37,10 @@ module.exports = {
                 query = { searchedTerm: term, definitions: query };
                 let embed = urban_CS(query, queryLimit);
 
-                return await interaction.reply({ embeds: [embed] });
+                return await interaction.reply({
+                    embeds: [embed],
+                    ephemeral: ephemeral
+                });
             });
         } catch (err) {
             console.error(err);
