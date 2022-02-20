@@ -113,7 +113,7 @@ async function FetchAndDeleteMessagesInChannel(channel, replyID, amount, include
 
 
         // Go through each message in the array and delete it from the channel
-        messages.forEach(msg => msg.delete());
+        await channel.bulkDelete(messages);
         purgedAmount = messages.length;
     });
 
