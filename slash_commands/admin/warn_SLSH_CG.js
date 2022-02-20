@@ -15,7 +15,10 @@ module.exports = {
             .setDescription("Warn a naughty member of the server.")
             .addUserOption(option => option.setName("member")
                 .setDescription("The member you want to warn.")
-                .setRequired(true)))
+                .setRequired(true))
+
+            .addStringOption(option => option.setName("reason")
+                .setDescription("The reason you're warning them.")))
 
         // Remove a warn from said used-to-be naughty member of the server
         .addSubcommand(subcommand => subcommand.setName("remove")
@@ -55,11 +58,18 @@ async function WarnMember(interaction) {
 
     // Publish the user warn to our mongo database
     return await publishUserWarn(interaction.guild.id, guildMember.id, reason, interaction.createdAt).then(async warn => {
-        return await interaction.reply({ content: `Warn published for ${guildMember.user}\n**Reason:** \"${warn.data.reason}\"` });
+        return await interaction.reply({
+            content: `Warn published for ${guildMember.user}
+            **Reason:** \"${warn.data.reason}\"
+            **id:** ${warn.id}`
+        });
     }).catch(async err => {
         console.error(err);
 
-        return await interaction.reply({ content: `Failed to submit warn to user ${guildMember.user.tag}` });
+        return await interaction.reply({
+            content: `Failed to submit warn to user ${guildMember.user.tag}`,
+            ephemeral: true
+        });
     });
 }
 

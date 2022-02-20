@@ -12,6 +12,8 @@ module.exports = {
     aliases: aliases,
     description: description,
 
+    requireGuildMemberHaveAdmin: true,
+
     execute: async (client, message, commandData) => {
         let warnID = commandData.args[0];
 

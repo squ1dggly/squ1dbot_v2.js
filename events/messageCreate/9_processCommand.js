@@ -13,6 +13,9 @@ module.exports = {
     event: "messageCreate",
 
     execute: async (client, message, guildData) => {
+        // Don't respond to dmed messages because we need the guild information for some responses and that'll break the bot
+        if (!message.guild) return;
+
         // Prevents the bot from responding to itself and other bots
         if (message.author.id === client.user.id) return;
         if (message.author.bot) return;

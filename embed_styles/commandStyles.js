@@ -13,7 +13,7 @@ module.exports = {
 
         // Create a blank embed setting the title and embed color
         let embed = new MessageEmbed()
-            .setTitle(`Urban Definition of **${query.searchedTerm}**`)
+            .setTitle(`Urban Definition of ***${query.searchedTerm}***`)
             .setColor(embedColor.MAIN);
 
         // Defines our maximum character count and the current definition index number

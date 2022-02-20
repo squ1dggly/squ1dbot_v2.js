@@ -13,6 +13,9 @@ module.exports = {
     event: "interactionCreate",
 
     execute: async (client, interaction, guildData) => {
+        // Don't respond to dmed interactions because we need the guild information for some responses and that'll break the bot
+        if (!interaction.guild) return;
+
         // If the interaction received wasn't actually a command cancel the remaining functions in this script
         if (!interaction.isCommand()) return;
         // await interaction.deferReply();
@@ -44,7 +47,7 @@ module.exports = {
                 command.execute(client, interaction, guildData);
             } catch (err) {
                 console.error(`Failed to execute slash command \"${command.data.name}\"`, err);
-                
+
                 return await interaction.reply(RandomChoice(errorMsg.COMMANDFAILEDMISERABLY)
                     .replace("$CMDNAME", command.name)
                     .replace("$CREATORTAG", userMention(CREATOR_ID))

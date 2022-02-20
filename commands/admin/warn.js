@@ -13,6 +13,8 @@ module.exports = {
     aliases: aliases,
     description: description,
 
+    requireGuildMemberHaveAdmin: true,
+
     execute: async (client, message, commandData) => {
         let guildMember = message.mentions.members.first() || null;
 
@@ -42,10 +44,14 @@ module.exports = {
 
         // Publish the user warn to our mongo database
         return await publishUserWarn(message.guild.id, guildMember.id, reason, message.createdAt).then(async warn => {
-            return await message.channel.send({ content: `Warn published for ${guildMember.user}\n**Reason:** \"${warn.data.reason}\"` });
+            return await message.channel.send({
+                content: `Warn published for ${guildMember.user}
+                **Reason:** \"${warn.data.reason}\"
+                **id:** ${warn.id}`
+            });
         }).catch(async err => {
             console.error(err);
-            
+
             return await message.reply({ content: `Failed to submit warn to user ${guildMember.user.tag}` });
         });
     }

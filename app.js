@@ -7,6 +7,7 @@ require('dotenv').config();
 const fs = require('fs');
 
 const { Client, Intents, Collection } = require('discord.js');
+const { PushSlashCommands, DeleteSlashCommands } = require('./modules/slshCmdHandler');
 
 const client = new Client({
     intents: [
@@ -38,44 +39,6 @@ importHandler_dir.forEach(fn => {
 // Connect to our client using our token:
 console.log("connecting to discord...");
 client.login(process.env.TOKEN).then(async () => {
-    // await DeleteSlashCommands();
     // await PushSlashCommands();
+    // await DeleteSlashCommands();
 });
-
-// >> Custom Functions
-async function DeleteSlashCommands() {
-    try {
-        let guilds = await client.guilds.fetch();
-
-        guilds.forEach(guild => {
-            client.guilds.cache.get(guild.id).commands.fetch()
-                .then(slsh_cmds => slsh_cmds.forEach(cmd => cmd.delete()));
-
-            console.log(`removed slash commands from guild: \"${guild.name}\" - (${guild.id})`);
-        });
-    } catch (err) {
-        console.error(`Failed to remove slash commands from guilds`, err);
-    }
-}
-
-async function PushSlashCommands() {
-    try {
-        let { REST } = require('@discordjs/rest');
-        let { Routes } = require('discord-api-types/v9');
-
-        let rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
-        
-        let commands = [];
-        client.slashCommands.forEach(cmd => commands.push(cmd.data));
-
-        let guilds = await client.guilds.fetch();
-    
-        guilds.forEach(guild => {
-            rest.put(Routes.applicationGuildCommands(client.user.id, guild.id), { body: commands })
-                .then(() => console.log(`pushed slash commands to guild: \"${guild.name}\" - (${guild.id})`))
-                .catch(console.error);
-        });
-    } catch (err) {
-        console.error(`Failed to push slash commands to guilds`, err);
-    }
-}
