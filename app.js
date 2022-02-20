@@ -28,6 +28,7 @@ client.messageSpamCache = new Collection();
 client.channelErrorMsgCache = new Collection();
 client.cmdCooldownCache = new Collection();
 
+
 // Run handlers:
 let importHandler_dir = fs.readdirSync('./import_handlers').filter(fn => fn.endsWith('.js'));
 
@@ -38,9 +39,16 @@ importHandler_dir.forEach(fn => {
 
 // Connect to our client using our token:
 console.log("connecting to discord...");
+
+client.pushSlashCommands = false;
+client.removeSlashCommands = false;
+
 client.login(process.env.TOKEN).then(async () => {
-    // await PushSlashCommands(client);
-    // await DeleteSlashCommands(client);
+    if (client.pushSlashCommands)
+        await PushSlashCommands(client);
+
+    if (client.removeSlashCommands)
+        await DeleteSlashCommands(client);
 });
 
 module.exports = client;

@@ -5,8 +5,8 @@
   "main": "app.js",
 
   "scripts": {
-    "pushSlash": "node -e \"require('./modules/slshCmdHandler').PushSlashCommands(require('./app'))\"",
-    "removSlash": "node -e \"require('./modules/slshCmdHandler').DeleteSlashCommands(require('./app'))\""
+    "pushSlash": "node -e \"require('./app').pushSlashCommands = true\"",
+    "removSlash": "node -e \"require('./app').removeSlashCommands = true\""
   },
 
   "author": "squ1d",
