@@ -22,5 +22,24 @@
             "69/10 would smash!",
             "outstanding form!"
         ]
-    }
+    },
+
+    "urbanCommandTip": [
+        "$PRFX$CMDNAME barack obama, 2",
+        "$PRFX$CMDNAME pizza, 3",
+        "$PRFX$CMDNAME 420 blaze it, 4",
+        "$PRFX$CMDNAME rule34, 5",
+        "$PRFX$CMDNAME the bite of 87, 6",
+        "$PRFX$CMDNAME ratio, 7",
+        "$PRFX$CMDNAME mald, 8",
+        "$PRFX$CMDNAME cope, 9",
+        "$PRFX$CMDNAME cheeseburger, 10"
+    ],
+
+    "urbanEmptyResults": [
+        "",
+        " Just like my parents did.",
+        " Just like my bank account. Smh",
+        " Just like my remaining brain cells after talking to you."
+    ]
 }
