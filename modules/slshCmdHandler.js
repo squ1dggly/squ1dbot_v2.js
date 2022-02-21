@@ -34,11 +34,11 @@ async function DeleteSlashCommands(client, guild = null) {
         else {
             let guilds = await client.guilds.fetch();
 
-            guilds.forEach(guild => {
-                client.guilds.cache.get(guild.id).commands.fetch()
+            guilds.forEach(g => {
+                client.guilds.cache.get(g.id).commands.fetch()
                     .then(slsh_cmds => slsh_cmds.forEach(cmd => cmd.delete()));
 
-                console.log(`removed slash commands from guild: \"${guild.name}\" - (${guild.id})`);
+                console.log(`removed slash commands from guild: \"${g.name}\" - (${g.id})`);
             });
         }
     } catch (err) {
