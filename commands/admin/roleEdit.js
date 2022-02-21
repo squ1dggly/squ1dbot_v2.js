@@ -15,29 +15,45 @@ module.exports = {
     description: description,
 
     execute: async (client, message, commandData) => {
-        let roles = message.mentions.roles;
+        let roles;
 
-        if (roles.size === 0 && commandData.args.length > 0) {
-            let roleArgs = commandData.splitContent(",");
-            let fetchedRoles = [];
+        if (message.mentions.roles.size > 0)
+            roles = message.mentions.roles.size.map(r => r);
+        else {
+            roles = [];
 
-            await roleArgs.forEach(async arg => {
-                let fetched = await GetRoleFromNameOrID(message.guild, arg);
-                if (fetched) fetchedRoles.push(fetched);
+            commandData.splitContent(",").forEach(async arg => {
+                console.log(arg);
+
+                let fetched = await GetRoleFromNameOrID(message.guild, arg.toLowerCase());
+                console.log(fetched.name);
+
+                if (fetched) roles.push(fetched);
             });
-
-            console.log(fetchedRoles);
-
-            if (roles.size === 0) return await message.reply({
-                content: "You have to mention at least one role to edit it."
-            });
-        } else if (roles.size < 1 && commandData.args.length < 1) return await message.reply({
-            content: "You have to mention at least one role to edit it."
-        });
+        }
 
         console.log(roles);
 
-        let mentionedRoles = "";
+        // if (message.mentions.roles.size > 0) roles = message.mentions.roles.map(r => r);
+
+        /* if (roles.length === 0) {
+            let roles = [];
+            commandData.splitContent(",").forEach(arg => {
+                GetRoleFromNameOrID(message.guild, arg.toLowerCase()).then(r => roles.push(r));
+            });
+
+            if (roles.length === 0) return await message.reply({
+                content: "You have to mention at least one role to edit it."
+            });
+        }
+
+        console.log(roles);
+
+        if (roles.length === 0) return await message.reply({
+            content: "You have to mention at least one role to edit it."
+        }); */
+
+        /* let mentionedRoles = "";
         roles.forEach(role => mentionedRoles += `${role} `);
 
         let embed = new MessageEmbed()
@@ -45,6 +61,6 @@ module.exports = {
             .setDescription(mentionedRoles)
             .setColor(embedColor.MAIN);
 
-        return await message.channel.send({ embeds: [embed] });
+        return await message.channel.send({ embeds: [embed] }); */
     }
 }
