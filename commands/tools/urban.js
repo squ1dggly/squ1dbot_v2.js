@@ -20,9 +20,9 @@ module.exports = {
         let commandTip = (RandomChance(3) ? "\n\n$TIP" : "").replace(
             "$TIP",
             `Tip: You can view more than 1 definition by adding a comma (,) and then the number of definitions you want.
-                Example: \`${RandomChoice(urbanCommandTip
+                Example: \`${RandomChoice(urbanCommandTip)
                 .replace("$PRFX", commandData.guildData.guildPrefixes[0])
-                .replace("$CMDNAME", cmdName))
+                .replace("$CMDNAME", cmdName)
             }\``
         );
 
