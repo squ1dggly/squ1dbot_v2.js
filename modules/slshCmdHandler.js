@@ -8,7 +8,7 @@ async function PushSlashCommands(client, guild = null) {
 
         client.slashCommands.forEach(cmd => commands.push(cmd.data));
 
-        if (guild.id)
+        if (guild)
             rest.put(Routes.applicationGuildCommands(client.user.id, guild.id), { body: commands })
                 .then(() => console.log(`pushed slash commands to guild: \"${guild.name}\" - (${guild.id})`))
                 .catch(console.error);
@@ -28,7 +28,7 @@ async function PushSlashCommands(client, guild = null) {
 
 async function DeleteSlashCommands(client, guild = null) {
     try {
-        if (guild.id)
+        if (guild)
             client.guilds.cache.get(guild.id).commands.fetch()
                 .then(slsh_cmds => slsh_cmds.forEach(cmd => cmd.delete()));
         else {

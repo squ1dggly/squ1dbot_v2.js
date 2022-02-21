@@ -34,21 +34,13 @@ let importHandler_dir = fs.readdirSync('./import_handlers').filter(fn => fn.ends
 
 importHandler_dir.forEach(fn => {
     try { require(`./import_handlers/${fn}`).init(client); }
-    catch (err) { console.error(`Failed to initialize handler: ${fn} is not a valid handler script`, err); }
+    catch (err) { console.error(`Failed to initialize handler; ${fn} is not a valid handler script`, err); }
 });
 
 // Connect to our client using our token:
 console.log("connecting to discord...");
 
-client.pushSlashCommands = false;
-client.removeSlashCommands = false;
-
 client.login(process.env.TOKEN).then(async () => {
-    if (client.pushSlashCommands)
-        await PushSlashCommands(client);
-
-    if (client.removeSlashCommands)
-        await DeleteSlashCommands(client);
+    // await PushSlashCommands(client);
+    // await DeleteSlashCommands(client);
 });
-
-module.exports = client;
