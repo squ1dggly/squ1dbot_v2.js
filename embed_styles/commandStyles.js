@@ -17,17 +17,19 @@ module.exports = {
             .setColor(embedColor.MAIN);
 
         // Defines our maximum character count and the current definition index number
-        let maxCharCount = 1800;
+        let maxCharCount = 900;
         let totalCharCount = 0;
         let definitionIndex = 1;
 
         query.definitions.some(def => {
             // If our total character count is greater than or equal to our max character count break out of the (for loop)
             if (totalCharCount >= maxCharCount) {
+                let remainder;
+
                 // If we haven't gone through all the definitions before reaching this point
                 // let the user know that we hit the maximum discord character count
-                if (definitionIndex < query.definitions.length) {
-                    let remainder = query.definitions.length - definitionIndex;
+                if (definitionIndex < query.definitions.length - 1) {
+                    remainder = (query.definitions.length - definitionIndex);
 
                     embed.setFooter({
                         text: `the remaining $REMAINDER $DYNAMICDEF exceed the max character limit`
@@ -39,14 +41,14 @@ module.exports = {
 
                 return remainder;
             }
-
+            
             // Check if this definition is greater than our maximum character count and formats it if it is
             totalCharCount += def.definition.length;
             if (totalCharCount > maxCharCount) {
                 totalCharCount -= def.definition.length;
 
-                def.definition = def.definition.slice(0, totalCharCount - maxCharCount)
-                    + `[... click here for full definition.](${def.permalink})`;
+                def.definition = def.definition.slice(0, maxCharCount - (def.definition.length - 1))
+                    + `... [read more.](${def.permalink})`;
 
                 totalCharCount += def.definition.length + 35;
             }
@@ -56,8 +58,8 @@ module.exports = {
             if (totalCharCount > maxCharCount) {
                 totalCharCount -= def.example.length;
 
-                def.example = def.example.slice(0, totalCharCount - maxCharCount)
-                    + `[... click here for full example.](${def.permalink})`;
+                def.example = def.example.slice(0, maxCharCount - (def.example.length - 1))
+                    + `... [read more.](${def.permalink})`;
 
                 totalCharCount += def.example.length + 32;
             }
@@ -78,7 +80,8 @@ module.exports = {
             embed.addField(`Definition ${def.current_index} of ${query.formattedDefs.length}`, def.definition);
 
             // Adds a field underneath the above field for the current definition's example
-            embed.addField("Example:", `\`\`\`${def.example}\`\`\``);
+            // embed.addField("Example:", `\`\`\`${def.example}\`\`\``);
+            embed.addField("Example:", `*${def.example}*`);
 
             // Adds a field beneath the above definition and definition example fields
             // for the current definitions like and dislike count along with the link to the Urban Dictionary website
