@@ -13,7 +13,7 @@ module.exports = {
     execute: async (client, interaction) => {
         let botMS = client.ws.ping;
         let embed = new MessageEmbed()
-            .setTitle(`**Pong!** Bot: ${formatNumberString(botMS)}ms`)
+            .setTitle(`${client.devMode ? " **Pong! - currently in dev mode; stability does not exist.**" : "**Pong!**"}\nBot: ${formatNumberString(botMS)}ms`)
             .setColor((botMS > 420) ? embedColor.ERROR : embedColor.MAIN);
 
         return await interaction.reply({ embeds: [embed] });

@@ -19,7 +19,7 @@ module.exports = {
     requireGuildMemberHaveAdmin: true,
     specialPermissions: [Permissions.FLAGS.MANAGE_MESSAGES],
 
-    execute: async (client, message, commandData, guildData) => {
+    execute: async (client, message, commandData) => {
         let amount = parseInt(commandData.args[0]) || 0;
         let includes = commandData.splitContent("--i")[1] || null;
         let fromMember = message.mentions.members.first() || null;
@@ -30,7 +30,7 @@ module.exports = {
         if (amount === 0) {
             let tip1 = "*You can optionally filter by member by mention, user ID, or username/nickname.*";
             let tip2 = "*You can also filter by word or phrase by addiing the \`--i\` tag and putting the phrase after.*";
-            let tip3 = `*Format: \`${guildData.prefixes[0]}\`purge 5 --i hello`;
+            let tip3 = `*Format: \`${commandData.guildData.guildPrefixes[0]}\`purge 5 --i hello`;
 
             return await message.reply({
                 content: `You've failed to tell me how many messages you wanted to purge.${RandomChance(3) ? `\n\n${tip1}\n${tip2}\n${tip3}` : ""}`

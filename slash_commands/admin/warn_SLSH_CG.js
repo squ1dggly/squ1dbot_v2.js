@@ -59,9 +59,7 @@ async function WarnMember(interaction) {
     // Publish the user warn to our mongo database
     return await publishUserWarn(interaction.guild.id, guildMember.id, reason, interaction.createdAt).then(async warn => {
         return await interaction.reply({
-            content: `Warn published for ${guildMember.user}
-            **Reason:** \"${warn.data.reason}\"
-            **id:** ${warn.id}`
+            content: `Warn published for ${guildMember.user} **id:** ${warn.id}\n**Reason:** \"${warn.data.reason}\"`
         });
     }).catch(async err => {
         console.error(err);

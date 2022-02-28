@@ -28,8 +28,39 @@ module.exports = {
             content: "You have to mention at least 1 role to use this command. I'm not *that* dumb."
         });
 
-        let embed = new MessageEmbed().setTitle(roles.map(r => `${r}`));
+        // Embed
+        let embed = new MessageEmbed()
+            .setTitle(roles.length > 1 ? `Bulk Editing Roles` : `Editing Role`)
+            .setDescription("a description that's supposed to tell you how any of this shit works except it doesn't")
+            .setTimestamp(message.createdAt)
+            .setColor(embedColor.MAIN)
 
-        return await message.channel.send({ embeds: [embed] });
+            .addField(
+                `Selected Roles (${roles.length}):`,
+                `${roles.join("\n")}`
+            );
+
+        // Buttons
+        let btn_changeColor = new MessageButton()
+            .setLabel(roles.length > 1 ? `Change Colors` : `Change Color`)
+            .setCustomId("changeColor")
+            .setStyle("SECONDARY");
+
+        let btn_editPermissions = new MessageButton()
+            .setLabel("Edit Permissions")
+            .setCustomId("editPermissions")
+            .setStyle("SECONDARY");
+
+        let btn_delete = new MessageButton()
+            .setLabel(roles.length > 1 ? `Delete Roles (${roles.length})` : `Delete Role`)
+            .setCustomId("delete")
+            .setStyle("DANGER");
+
+        // Action Row
+        let actionRow = new MessageActionRow()
+            .addComponents(btn_changeColor, btn_editPermissions, btn_delete);
+
+        // Send
+        return await message.channel.send({ embeds: [embed], components: [actionRow] });
     }
 }

@@ -16,7 +16,9 @@ module.exports = {
         let botMS = client.ws.ping;
         let commandMS = pongedMessage.createdTimestamp - message.createdTimestamp;
 
-        return await pongedMessage.edit(`**Pong!**\nBot: ${formatNumberString(botMS)}ms\nMessages: ${formatNumberString(commandMS)}ms`);
+        return await pongedMessage.edit({
+            content: `${client.devMode ? " **Pong! - currently in dev mode; stability does not exist.**" : "**Pong!**"}\nBot: ${formatNumberString(botMS)}ms\nMessages: ${formatNumberString(commandMS)}ms`
+        });
     }
 }
 
