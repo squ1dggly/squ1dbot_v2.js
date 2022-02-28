@@ -11,7 +11,8 @@
     "embedColor": {
         "MAIN": "65B085",
         "APPROVED": "FFBD5B",
-        "ERROR": "E75F5F"
+        "ERROR": "E75F5F",
+        "CONFIG": "F2F2F2"
     },
 
     "timeouts": {

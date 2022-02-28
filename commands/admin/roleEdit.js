@@ -32,13 +32,9 @@ module.exports = {
         let embed = new MessageEmbed()
             .setTitle(roles.length > 1 ? `Bulk Editing Roles` : `Editing Role`)
             .setDescription("a description that's supposed to tell you how any of this shit works except it doesn't")
-            .setTimestamp(message.createdAt)
-            .setColor(embedColor.MAIN)
+            .setColor(embedColor.CONFIG);
 
-            .addField(
-                `Selected Roles (${roles.length}):`,
-                `${roles.join("\n")}`
-            );
+        embed.addField(`Selected Roles (${roles.length}):`, `${roles.join("\n")}`);
 
         // Buttons
         let btn_changeColor = new MessageButton()
@@ -61,6 +57,44 @@ module.exports = {
             .addComponents(btn_changeColor, btn_editPermissions, btn_delete);
 
         // Send
-        return await message.channel.send({ embeds: [embed], components: [actionRow] });
+        return await message.channel.send({ embeds: [embed], components: [actionRow] }).then(async msg => {
+            let collector = msg.createMessageComponentCollector({ componentType: "BUTTON", time: 15000 });
+
+            collector.on("collect", async i => {
+                i.deferUpdate();
+
+                if (i.user.id !== message.author.id)
+                    return await i.reply({ content: "You have no authority to use these buttons. Get your own.", ephemeral: true });
+
+                collector.resetTimer();
+
+                switch (i.customId) {
+                    case "delete":
+                        return await Promise.all(roles.map(r => r.delete())).then(async () => {
+                            let deletedRolesEmbed = new MessageEmbed()
+                            .setTitle(roles.length > 1 ? `Multiple Roles Deleted Successfully` : `Role Deleted Successfully`)
+                            .setDescription(`${roles.map(r => `${r.name}\n`)}`)
+                            .setTimestamp(msg.createdAt)
+                            .setColor(embedColor.APPROVED);
+        
+                            deletedRolesEmbed.addField("Changes (1):", "deleted role(s)");
+        
+                        return await msg.edit({ embeds: [deletedRolesEmbed], components: [] }).catch(console.error);  
+                        });
+                }
+            });
+
+            collector.on("end", async col => {
+                let finishedEmbed = new MessageEmbed()
+                    .setTitle(roles.length > 1 ? `Multiple Roles Edited Successfully` : `Role Edited Successfully`)
+                    .setDescription(`${roles.join("\n")}`)
+                    .setTimestamp(msg.createdAt)
+                    .setColor(embedColor.APPROVED);
+
+                finishedEmbed.addField("Changes (0):", "None");
+
+                return await msg.edit({ embeds: [finishedEmbed], components: [] }).catch(console.error);
+            });
+        });
     }
 }
