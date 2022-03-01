@@ -1,6 +1,6 @@
 // Update one or more existing role all at once.
 
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { MessageEmbed, MessageActionRow, MessageButton, Permissions } = require('discord.js');
 const { GetRoleFromNameOrID, SelfDestructingMessage, DestroyMessageAfter } = require('../../modules/guildTools');
 const { embedColor } = require('../../configs/clientSettings.json');
 
@@ -13,6 +13,9 @@ module.exports = {
     name: cmdName,
     aliases: aliases,
     description: description,
+
+    requireGuildMemberHaveAdmin: true,
+    specialPermissions: [Permissions.FLAGS.MANAGE_ROLES, Permissions.FLAGS.MANAGE_MESSAGES],
 
     execute: async (client, message, commandData) => {
         let roles = message.mentions.roles.size > 0 ? message.mentions.roles.map(r => r) : null;
