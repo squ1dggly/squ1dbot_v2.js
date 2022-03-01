@@ -129,6 +129,25 @@ async function GetChannelFromNameOrID(guild, id) {
     ) || null;
 }
 
+async function SelfDestructingMessage(channel, data, time) {
+    return await channel.send(data)
+        .then(m => setTimeout(() => m.delete(), time))
+        .catch(console.error);
+}
+
+async function SelfDestructingReply(message, data, time) {
+    return await message.reply(data)
+        .then(m => setTimeout(() => m.delete(), time))
+        .catch(console.error);
+}
+
+async function DestroyMessageAfter(message, time) {
+    let m;
+    setTimeout(async () => m = await message.delete(), time);
+    
+    return m;
+}
+
 // >> Members << //
 async function GetMemberFromNameOrID(guild, id) {
     let guildMembers = await guild.members.fetch();
@@ -157,6 +176,9 @@ module.exports = {
     SetMultipleChannelPermissions: SetMultipleChannelPermissions,
     FetchAndDeleteMessagesInChannel: FetchAndDeleteMessagesInChannel,
     GetChannelFromNameOrID: GetChannelFromNameOrID,
+    SelfDestructingMessage: SelfDestructingMessage,
+    SelfDestructingReply: SelfDestructingReply,
+    DestroyMessageAfter: DestroyMessageAfter,
 
     GetMemberFromNameOrID: GetMemberFromNameOrID,
 
