@@ -1,5 +1,6 @@
 module.exports = {
     CleanStringArrayWhitespace: CleanStringArrayWhitespace,
+    CleanArrayUndefined: CleanArrayUndefined,
     RandomChance: RandomChance,
     RandomChoice: RandomChoice,
     RandomNumber: RandomNumber
@@ -20,6 +21,13 @@ function CleanStringArrayWhitespace(arr) {
 
         newArr.push(item);
     });
+
+    return newArr;
+}
+
+function CleanArrayUndefined(arr) {
+    let newArr = [];
+    arr.forEach(item => item ? newArr.push(item) : null);
 
     return newArr;
 }

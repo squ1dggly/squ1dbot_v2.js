@@ -41,7 +41,7 @@ module.exports = {
 
                 return remainder;
             }
-            
+
             // Check if this definition is greater than our maximum character count and formats it if it is
             totalCharCount += def.definition.length;
             if (totalCharCount > maxCharCount) {
@@ -91,6 +91,28 @@ module.exports = {
                 `Author: **[${def.author}](${def.permalink})**\n👍 ${def.thumbs_up} || 👎 ${def.thumbs_down}`
             );
         });
+
+        return embed;
+    },
+
+    roleEdit_CS: (data, finished = false) => {
+        let activeTitle = data.selectedRoles.length > 1 ? `Bulk Editing Roles` : `Editing Role`;
+        let inactiveTitle = data.selectedRoles.length > 1 ? `Multiple Roles Edited Successfully` : `Role Edited Successfully`;
+
+        let activeDescription = "an extremely accurate description that tells you how all this shit works except it doesn't";
+        let inactiveDescription = data.finishedByDelete ? `${data.selectedRoles.map(r => `${r.name}`).join("\n")}` : `${data.selectedRoles.join("\n")}`;
+
+        let embed = new MessageEmbed()
+            .setTitle(finished ? inactiveTitle : activeTitle)
+            .setDescription(finished ? inactiveDescription : activeDescription)
+            .setColor(finished ? embedColor.APPROVED : embedColor.CONFIG);
+
+        if (finished)
+            embed.setTimestamp(data.message.createdAt);
+        else
+            embed.addField(`Selected Roles (${data.selectedRoles.length}):`, `${data.selectedRoles.join("\n")}`);
+
+        embed.addField(`Audit (${data.audit.length}):`, `\`${data.audit.length > 0 ? data.audit.join("\n") : "None"}\``);
 
         return embed;
     }
