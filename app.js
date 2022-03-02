@@ -28,7 +28,7 @@ client.messageSpamCache = new Collection();
 client.channelErrorMsgCache = new Collection();
 client.cmdCooldownCache = new Collection();
 
-client.devMode = true;
+client.devMode = false;
 
 // Run handlers:
 let importHandler_dir = fs.readdirSync('./import_handlers').filter(fn => fn.endsWith('.js'));
