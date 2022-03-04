@@ -8,11 +8,17 @@
         "INFO": "/invite || s!invite"
     },
 
+    "CLIENT_ACTIVITY_DEVMODE": {
+        "STATUS": "dnd",
+        "TYPE": "STREAMING",
+        "INFO": "unstability"
+    },
+
     "embedColor": {
         "MAIN": "65B085",
         "APPROVED": "FFBD5B",
         "ERROR": "E75F5F",
-        "CONFIG": "F2F2F2"
+        "CONFIG": "B0228C"
     },
 
     "timeouts": {
@@ -41,12 +47,7 @@
         ],
 
         "COMMANDFAILEDMISERABLY": [
-            "Oh no! Failed to run command: `$CMDNAME`. $CREATORTAG has failed at life yet again.",
-            "Command failed: `$CMDNAME`; $CREATORTAG will certainly be looking into fixing that sometime this century.",
-
-            "Uh-oh! I dropped my cheese of with sandwich! Hopefully $CREATORTAG will fix that pothole on `$CMDNAME` drive.",
-            "Uh-oh! I dropped my sandwich with cheese! Hopefully $CREATORTAG will fix that pothole on `$CMDNAME` street.",
-            "Uh-oh! I dropped my bread con queso! Hopefully $CREATORTAG will fix that pothole on `$CMDNAME` road."
+            "failed to run `$CMDNAME`. i'm not even surprised at this point"
         ]
     }
 }

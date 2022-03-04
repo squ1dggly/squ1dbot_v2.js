@@ -1,5 +1,7 @@
 // Process any commands that were run in the user's message.
 
+require('dotenv').config();
+
 const { userMention } = require('@discordjs/builders');
 const { Permissions } = require('discord.js');
 
@@ -21,7 +23,7 @@ module.exports = {
         if (message.author.bot) return;
 
         // Checks if the message starts with one of our command prefixes
-        let prefixUsed = StartsWithPrefix(message.content, guildData) || StartsWithName(message);
+        let prefixUsed = process.env.DEVMODE ? "s?" : StartsWithPrefix(message.content, guildData) || StartsWithName(message);
         if (!prefixUsed) return;
 
         // Prevents users from spamming commands

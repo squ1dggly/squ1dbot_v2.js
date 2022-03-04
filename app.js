@@ -28,9 +28,8 @@ client.messageSpamCache = new Collection();
 client.channelErrorMsgCache = new Collection();
 client.cmdCooldownCache = new Collection();
 
-client.devMode = false;
-
 // Run handlers:
+console.log("starting...")
 let importHandler_dir = fs.readdirSync('./import_handlers').filter(fn => fn.endsWith('.js'));
 
 importHandler_dir.forEach(fn => {

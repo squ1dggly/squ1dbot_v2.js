@@ -59,7 +59,7 @@ function TestForPermissions(currentPermissions, required) {
 
         return {
             passed: (unavailable.length > 0) ? false : true,
-            requiredPermissions: unavailable.join(", ") || ""
+            requiredPermissions: unavailable || ""
         }
     } else {
         let unavailable;

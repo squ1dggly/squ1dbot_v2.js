@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 
 const { urban_CS } = require('../../embed_styles/commandStyles');
 const { RandomChoice, RandomChance } = require('../../modules/jsTools');
-const { urbanCommandTip, urbanEmptyResults } = require('../../configs/commandResponseList.json');
+const { urbanCommandTip, urbanEmptyResults } = require('../../configs/commandMessages.json');
 
 const cmdName = "urban";
 const aliases = [];

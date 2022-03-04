@@ -1,5 +1,10 @@
 // A simple ping command.
 
+require('dotenv').config();
+
+const { MessageEmbed } = require('discord.js');
+const { embedColor } = require('../../configs/clientSettings.json');
+
 const cmdName = "ping";
 const aliases = [];
 
@@ -11,13 +16,21 @@ module.exports = {
     description: description,
 
     execute: async (client, message) => {
-        let pongedMessage = await message.channel.send(`**Pong!**`);
+        let embed = new MessageEmbed()
+            .setTitle("Pong!")
+            .setColor(embedColor.MAIN);
 
-        let botMS = client.ws.ping;
-        let commandMS = pongedMessage.createdTimestamp - message.createdTimestamp;
+        return await message.channel.send({ embeds: [embed] }).then(async msg => {
+            let botMS = client.ws.ping;
+            let commandMS = msg.createdTimestamp - message.createdTimestamp;
 
-        return await pongedMessage.edit({
-            content: `${client.devMode ? " **Pong! - currently in dev mode; stability does not exist.**" : "**Pong!**"}\nBot: ${formatNumberString(botMS)}ms\nMessages: ${formatNumberString(commandMS)}ms`
+            embed.setDescription(`Bot: ${formatNumberString(botMS)}ms\nMessages: ${formatNumberString(commandMS)}ms`)
+                .setColor(botMS > 999 ? embedColor.ERROR : embedColor.MAIN);
+
+            if (process.env.DEVMODE)
+                embed.setFooter({ text: "i'm merely a test bot - what do you expect from me?" });
+
+            return await msg.edit({ embeds: [embed] }).then(async m => { if (botMS > 999) return await m.react("🇫") });
         });
     }
 }

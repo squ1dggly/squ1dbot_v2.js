@@ -1,7 +1,12 @@
 // A simple command that will display the link to which you can invite the bot to another server.
 
-const { MessageActionRow, MessageButton } = require('discord.js');
-const { INVITE_LINK } = require('../../configs/clientSettings.json');
+require('dotenv').config();
+
+const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { RandomChoice } = require('../../modules/jsTools');
+
+const { INVITE } = require('../../configs/commandMessages.json');
+const { INVITE_LINK, embedColor } = require('../../configs/clientSettings.json');
 
 const cmdName = "invite";
 const aliases = [];
@@ -14,9 +19,20 @@ module.exports = {
     description: description,
 
     execute: async (client, message) => {
-        let action_row = new MessageActionRow().addComponents(
-            new MessageButton({ label: "INVITE", style: "LINK", url: INVITE_LINK }));
+        let inviteTitle = `***${message.member.displayName} used invite!*** It was very effective.`;
+        let inviteTitle_devMode = `***${message.member.displayName} used invite!*** It wasn't very effective.`;
 
-        return await message.channel.send({ content: `Invite me to your fiesta! Drinks are on me! 🍻`, components: [action_row] });
+        let inviteDescription = RandomChoice(INVITE);
+        let inviteDescription_devMode = "I'm just a test bot. You can't invite me.";
+
+        let embed = new MessageEmbed()
+            .setTitle(process.env.DEVMODE ? inviteTitle_devMode : inviteTitle)
+            .setDescription(process.env.DEVMODE ? inviteDescription_devMode : inviteDescription)
+            .setColor(embedColor.MAIN);
+
+        let action_row = new MessageActionRow().addComponents(
+            new MessageButton({ label: process.env.DEVMODE ? "INVITE PRODUCTION" : "INVITE", style: "LINK", url: INVITE_LINK }));
+
+        return await message.channel.send({ embeds: [embed], components: [action_row] });
     }
 }

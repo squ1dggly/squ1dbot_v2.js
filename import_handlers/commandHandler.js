@@ -26,7 +26,7 @@ module.exports = {
                 name: cmd.name,
                 aliases: cmd.aliases,
                 description: cmd.description,
-                specialPermissions: cmd.specialPermisions || null,
+                specialPermissions: cmd.specialPermissions || null,
                 requireGuildMemberHaveAdmin: cmd.requireGuildMemberHaveAdmin || false,
                 execute: cmd.execute
                 
@@ -38,7 +38,7 @@ module.exports = {
                         name: cmd.name,
                         alias: ali,
                         description: cmd.description,
-                        specialPermissions: cmd.specialPermisionsRequired || null,
+                        specialPermissions: cmd.specialPermissions || null,
                         requireGuildMemberHaveAdmin: cmd.requireGuildMemberHaveAdmin || false,
                         execute: cmd.execute
                     });

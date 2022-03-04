@@ -1,6 +1,6 @@
 // Update one or more existing role all at once.
 
-const { MessageEmbed, MessageActionRow, MessageButton, Permissions } = require('discord.js');
+const { Permissions, MessageActionRow, MessageButton } = require('discord.js');
 const { GetRoleFromNameOrID, SelfDestructingMessage, DestroyMessageAfter } = require('../../modules/guildTools');
 const { CleanArrayUndefined } = require('../../modules/jsTools');
 const { roleEdit_CS } = require('../../embed_styles/commandStyles');
@@ -73,7 +73,7 @@ module.exports = {
         let btn_done = new MessageButton()
             .setLabel("Done")
             .setCustomId("done")
-            .setStyle("SECONDARY");
+            .setStyle("SUCCESS");
 
         let btn_confirm = new MessageButton()
             .setLabel("Confirm")

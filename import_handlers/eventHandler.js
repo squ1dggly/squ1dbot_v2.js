@@ -19,7 +19,6 @@ module.exports = {
 
         let event_interactionCreate = importEventFunctions('../events/interactionCreate');
 
-
         // Ready
         client.on("ready", async () => {
             event_ready.forEach(func => executeEvent(func, client));

@@ -4,9 +4,8 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 
 const { CleanStringArrayWhitespace, RandomChance, RandomChoice } = require('../../modules/jsTools');
-
 const { embedColor } = require('../../configs/clientSettings.json');
-const responses = require('../../configs/commandResponseList.json').pick;
+const { PICK } = require('../../configs/commandMessages.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -36,7 +35,7 @@ module.exports = {
 
         // If the user didn't fail at giving us more than 1 option; pick something random and tell the user what our choice was
         let choice = RandomChoice(args);
-        let response = RandomChoice(responses);
+        let response = RandomChoice(PICK);
 
         embed.setTitle(response).setDescription(choice).setColor(embedColor.MAIN);
         return await interaction.reply({ embeds: [embed], ephemeral: ephemeral });

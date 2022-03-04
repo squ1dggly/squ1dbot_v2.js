@@ -4,7 +4,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 
 const { RandomChoice } = require('../../modules/jsTools');
-const { avatarFooters } = require('../../configs/commandResponseList.json');
+const { AVATAR } = require('../../configs/commandMessages.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -33,7 +33,7 @@ module.exports = {
             .setAuthor({ name: guildMember.displayName, url: guildMember.user.avatarURL() })
             .setDescription(`[128px](${avatar_128}) - [256px](${avatar_256}) - [512px](${avatar_512}) - [1024px](${avatar_1024})`)
             .setImage(avatar_1024)
-            .setFooter({ text: displayingSelf ? RandomChoice(avatarFooters.me) : RandomChoice(avatarFooters.other) })
+            .setFooter({ text: displayingSelf ? RandomChoice(AVATAR.me) : RandomChoice(AVATAR.other) })
             .setColor(embedAccentColor);
 
         interaction.reply({ embeds: [embed], ephemeral: ephemeral });

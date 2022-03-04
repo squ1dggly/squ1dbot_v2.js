@@ -27,7 +27,7 @@ module.exports = {
             client.slashCommands.set(cmd.data.name, {
                 data: cmd.data,
                 execute: cmd.execute,
-                specialPermissions: cmd.specialPermisionsRequired || null,
+                specialPermissions: cmd.specialPermissions || null,
                 requireGuildMemberHaveAdmin: cmd.requireGuildMemberHaveAdmin || false
             });
         });

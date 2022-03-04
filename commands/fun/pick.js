@@ -1,7 +1,7 @@
 // Trouble making decisions because your brain can't grasp a simple understanding? Ask the bot to pick one of 2+ choices for you.
 
 const { RandomChance, RandomChoice } = require('../../modules/jsTools');
-const responses = require('../../configs/commandResponseList.json').pick;
+const { PICK } = require('../../configs/commandMessages.json');
 
 const cmdName = "pick";
 const aliases = ["choose"];
@@ -29,7 +29,7 @@ module.exports = {
 
         // If the user didn't fail at giving us more than 1 option; pick something random and tell the user what our choice was
         let choice = RandomChoice(args);
-        let response = RandomChoice(responses);
+        let response = RandomChoice(PICK);
 
         return await message.channel.send(`${response} ${choice}`);
     }

@@ -172,8 +172,8 @@ module.exports = {
 
     clientPermissionsUnavailable_ES: (permissionList) => {
         let embed = new MessageEmbed()
-            .setTitle("Access Denied:")
-            .addField("I do not have the following permissions needed run this command:", permissionList)
+            .setTitle(`I require ${permissionList.length > 1 ? "these permissions" : "this permission"} to continue:`)
+            .setDescription(permissionList.join("\n"))
             .setColor(embedColor.ERROR);
 
         return embed;

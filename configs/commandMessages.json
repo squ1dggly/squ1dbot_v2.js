@@ -1,5 +1,11 @@
 {
-    "pick": [
+    "INVITE": [
+        "Invite me to your fiesta! Drinks are on me! 🍻",
+        "Ever thought \"But mom!! I want a squ1dbot toooo!!!!\"? Well thought no longer!\nEnjoy squ1dbot at home for only $19.99 + tax!",
+        "The best of the best is coming to theaters near you! Get your shiny new ticket down below!"
+    ],
+
+    "PICK": [
         "Sometimes the simplest of answers are:",
         "The best option is clearly:",
         "It has been decided:",
@@ -8,7 +14,7 @@
         "I choose..."
     ],
     
-    "avatarFooters": {
+    "AVATAR": {
         "me": [
             "you're definitely an 11/10 in my book!",
             "looking good! keep up the great work!",
@@ -19,7 +25,6 @@
             "they've done a great job!",
             "abosolutely breathtaking!",
             "absolutely stunning!",
-            "69/10 would smash!",
             "outstanding form!"
         ]
     },

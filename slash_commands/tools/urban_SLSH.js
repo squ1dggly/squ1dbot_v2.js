@@ -6,7 +6,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 const { urban_CS } = require('../../embed_styles/commandStyles');
 const { RandomChoice, RandomChance } = require('../../modules/jsTools');
-const { urbanCommandTip, urbanEmptyResults } = require('../../configs/commandResponseList.json');
+const { urbanCommandTip, urbanEmptyResults } = require('../../configs/commandMessages.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
