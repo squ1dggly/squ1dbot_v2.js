@@ -1,6 +1,8 @@
 .vscode
-node_modules
+commands
+import_handlers/commandHandler.js
 slash_commands_old
+node_modules
 .env
 
 *.txt
